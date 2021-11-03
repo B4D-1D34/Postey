@@ -20,11 +20,16 @@
 }
 
 .formInput {
-  border: 1px solid black;
+  border: 1px solid rgb(204, 204, 204);
   border-radius: 4px;
   margin-left: 2px;
   margin-bottom: 2px;
   padding: 3px;
+}
+
+.formInput:focus,
+.signInSubmit:focus {
+  outline: darkorange solid 1px;
 }
 
 .signInSubmit {

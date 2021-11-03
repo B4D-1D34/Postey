@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import SignInForm from "../sign-in-form/sign-in-form.component";
 import { useState } from "react";
 import SignUpForm from "../sign-up-form/sign-up-form.component";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isSignUpShown, setIsSignUpShown] = useState(false);
@@ -22,15 +23,22 @@ const Navbar = () => {
 
   return (
     <div className={styles.navbar}>
-      <h1 className={styles.sitename}>Postey</h1>
+      <Link to="/" className={styles.sitename}>
+        Postey
+      </Link>
       {isSignUpShown ? (
         <SignUpForm setIsSignUpShown={setIsSignUpShown} />
       ) : null}
       <div className={styles.btnContainer}>
         {currentUser ? (
-          <button className={styles.navbarBtn} onClick={appSignOut}>
-            Sign Out
-          </button>
+          <>
+            <Link to="/profile">
+              <button className={styles.navbarBtn}>Profile</button>
+            </Link>
+            <button className={styles.navbarBtn} onClick={appSignOut}>
+              Sign Out
+            </button>
+          </>
         ) : (
           <>
             <>

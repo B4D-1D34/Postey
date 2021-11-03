@@ -21,7 +21,14 @@ const SignInForm = ({ setIsSignUpShown }) => {
     try {
       await signInWithEmailAndPass(email, password);
     } catch (err) {
-      dispatch(signInFailure(err));
+      dispatch(
+        signInFailure({
+          message: err.message,
+          signInErr: true,
+          signUpErr: false,
+        })
+      );
+      console.log(err);
     }
   };
 
@@ -33,7 +40,7 @@ const SignInForm = ({ setIsSignUpShown }) => {
   return (
     <form className={styles.signInForm} onSubmit={handleSubmit}>
       <h2 className={styles.signInTitle}>Sign In</h2>
-      {error ? (
+      {error?.signInErr ? (
         <p className={styles.signInErr}>
           {error.message.replace(/Firebase: Error \(auth\/\b|\).|-/gm, " ")}
         </p>

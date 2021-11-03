@@ -12,6 +12,13 @@ body {
   box-sizing: border-box;
 }
 
+a {
+  color: inherit;
+  text-decoration: inherit;
+  /* font-size: inherit; */
+  /* font-family: inherit; */
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

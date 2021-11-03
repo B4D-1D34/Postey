@@ -39,7 +39,13 @@ const SignUpForm = ({ setIsSignUpShown }) => {
     e.preventDefault();
 
     if (password !== passwordConfirmation) {
-      dispatch(signInFailure({ message: "passwords don't match" }));
+      dispatch(
+        signInFailure({
+          message: "passwords don't match",
+          signInErr: false,
+          signUpErr: true,
+        })
+      );
       return;
     }
     try {
@@ -47,7 +53,14 @@ const SignUpForm = ({ setIsSignUpShown }) => {
       await createUserProfileDocument(user, { displayName });
       setIsSignUpShown(false);
     } catch (err) {
-      dispatch(signInFailure(err));
+      dispatch(
+        signInFailure({
+          message: err.message,
+          signInErr: false,
+          signUpErr: true,
+        })
+      );
+      console.log(err);
     }
   };
 
@@ -64,7 +77,7 @@ const SignUpForm = ({ setIsSignUpShown }) => {
       />
       <form ref={formRef} className={styles.signUpForm} onSubmit={handleSubmit}>
         <h1 className={styles.signUpTitle}>Sign Up </h1>
-        {error ? (
+        {error?.signUpErr ? (
           <p className={styles.signUpErr}>
             {error.message.replace(/Firebase: |Error|auth\/\b|\.|-/gm, " ")}
           </p>

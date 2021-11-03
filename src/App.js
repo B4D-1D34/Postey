@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { Route, Switch } from "react-router";
-import { useDispatch } from "react-redux";
+import { Redirect, Route, Switch } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 import { getDoc } from "firebase/firestore";
 
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
@@ -10,8 +10,10 @@ import ProfilePage from "./pages/profile/profile-page.component";
 import Navbar from "./components/navbar/navbar.component";
 import { signInSuccess } from "./redux/user/user.actions";
 import "./App.css";
+import { selectCurrentUser } from "./redux/user/user.selectors";
 
 function App() {
+  const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (userAuth) => {
@@ -35,7 +37,11 @@ function App() {
       <Navbar />
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route exact path="/profile" component={ProfilePage} />
+        <Route
+          exact
+          path="/profile"
+          render={() => (currentUser ? <ProfilePage /> : <Redirect to="/" />)}
+        />
         <Route path="/post" component={PostPage} />
       </Switch>
     </div>
