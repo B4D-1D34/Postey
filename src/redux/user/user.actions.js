@@ -18,3 +18,13 @@ export const signOutFailure = (error) => ({
   type: UserActionTypes.SIGN_OUT_FAILURE,
   payload: error,
 });
+
+export const updateSuccess = (message) => ({
+  type: UserActionTypes.UPDATE_SUCCESS,
+  payload: message,
+});
+
+export const updateFailure = (error) => ({
+  type: UserActionTypes.UPDATE_FAILURE,
+  payload: error,
+});

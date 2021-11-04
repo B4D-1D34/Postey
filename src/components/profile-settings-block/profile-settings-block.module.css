@@ -1,8 +1,8 @@
 .inputContainer {
   margin-top: 20px;
   display: flex;
-  align-items: center;
-  /* justify-content: space-between; */
+  align-items: flex-start;
+  justify-content: space-between;
 }
 .formInput {
   border: 1px solid rgb(204, 204, 204);
@@ -10,6 +10,24 @@
   margin-left: auto;
   /* margin-bottom: 2px; */
   padding: 3px;
+}
+
+.innerEditingBlock {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgb(238, 238, 238);
+  border-radius: 10px;
+  padding: 10px;
+  width: 300px;
+}
+
+.innerEditingBlock .inputContainer {
+  margin: 10px;
+}
+
+.innerEditingBlock .saveSubmit {
+  align-self: flex-end;
+  margin: 5px 10px;
 }
 
 .formInput:focus {
@@ -25,6 +43,13 @@
   color: white;
   padding: 3px 10px;
   border-radius: 4px;
+}
+
+.saveSubmit:disabled,
+.saveSubmit:disabled:hover {
+  background: grey;
+  border: 1px solid grey;
+  cursor: not-allowed;
 }
 
 .saveSubmit:hover {

@@ -7,4 +7,14 @@ export const selectCurrentUser = createSelector(
   (user) => user.currentUser
 );
 
+export const selectUserAuth = createSelector(
+  [selectUser],
+  (user) => user.userAuth
+);
+
+export const selectUserNotification = createSelector(
+  [selectUser],
+  (user) => user.notification
+);
+
 export const selectError = createSelector([selectUser], (user) => user.error);

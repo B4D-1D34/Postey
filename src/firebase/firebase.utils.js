@@ -7,7 +7,13 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
-import { getFirestore, getDoc, doc, setDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  getDoc,
+  doc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 // import "firebase/firestore";
 // import "firebase/auth";
 
@@ -21,23 +27,49 @@ const firebaseConfig = {
   measurementId: "G-9YPQTSD987",
 };
 
+const userObject = (userAuth, additionalData, snapShotData) => {
+  const { displayName, providerData } = userAuth;
+  const { providerId } = providerData[0];
+  const authMethod = providerId === "google.com" ? "google" : "email/password";
+  const createdAt = new Date();
+  return {
+    displayName: snapShotData?.displayName
+      ? snapShotData.displayName
+      : displayName,
+    createdAt,
+    authMethod,
+    ...additionalData,
+  };
+};
+
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;
   const userRef = doc(firestore, `users/${userAuth.uid}`);
 
   const snapShot = await getDoc(userRef);
 
-  if (!snapShot.exists()) {
-    const { displayName, email } = userAuth;
-    const createdAt = new Date();
+  const isSnapshotExist = snapShot.exists();
 
+  const compareStoredAndActualObj = (isSnapshotExist) => {
+    if (isSnapshotExist) {
+      const dbObjectLength = Object.keys(snapShot.data()).length;
+      const genObjectLength = Object.keys(
+        userObject(userAuth, additionalData)
+      ).length;
+      return dbObjectLength !== genObjectLength;
+    }
+  };
+
+  if (!isSnapshotExist || compareStoredAndActualObj(isSnapshotExist)) {
     try {
-      await setDoc(userRef, {
-        displayName,
-        email,
-        createdAt,
-        ...additionalData,
-      });
+      if (isSnapshotExist) {
+        await setDoc(
+          userRef,
+          userObject(userAuth, additionalData, snapShot.data())
+        );
+      } else {
+        await setDoc(userRef, userObject(userAuth, additionalData));
+      }
     } catch (err) {
       console.log("error creating user", err.message);
     }
@@ -60,3 +92,9 @@ export const signInWithEmailAndPass = (email, password) =>
   signInWithEmailAndPassword(auth, email, password);
 export const createUserWithEmailAndPass = (email, password) =>
   createUserWithEmailAndPassword(auth, email, password);
+
+export const changeDbUserField = (userAuth, field) => {
+  const userRef = doc(firestore, `users/${userAuth.uid}`);
+  const fieldName = Object.keys(field)[0];
+  updateDoc(userRef, fieldName, field[fieldName]);
+};

@@ -11,6 +11,7 @@ import Navbar from "./components/navbar/navbar.component";
 import { signInSuccess } from "./redux/user/user.actions";
 import "./App.css";
 import { selectCurrentUser } from "./redux/user/user.selectors";
+import NotificationBox from "./components/notification-box/notification-box.component";
 
 function App() {
   const currentUser = useSelector(selectCurrentUser);
@@ -23,7 +24,7 @@ function App() {
         const userSnapshot = await getDoc(userRef);
         const currentUser = { id: userSnapshot.id, ...userSnapshot.data() };
         console.log(currentUser);
-        dispatch(signInSuccess(currentUser));
+        dispatch(signInSuccess({ currentUser, userAuth }));
       }
     });
 
@@ -44,6 +45,7 @@ function App() {
         />
         <Route path="/post" component={PostPage} />
       </Switch>
+      <NotificationBox />
     </div>
   );
 }
