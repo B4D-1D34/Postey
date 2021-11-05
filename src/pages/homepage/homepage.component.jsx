@@ -9,12 +9,11 @@ const HomePage = () => {
     <div className={styles.homepage}>
       <h1>Homepage</h1>
       {Object.keys(posts)
-        .map((key) => posts[key])
-        .map((user) => user.posts)
-        .reduce((arr, posts) => arr.concat(posts), [])
-        .map(({ id, author, theme, createdAt, rating, comments, content }) => (
+        .map((key) => ({ ...posts[key], key }))
+        .map(({ key, author, theme, createdAt, rating, comments, content }) => (
           <PostItem
-            key={id}
+            key={key}
+            id={key}
             author={author}
             theme={theme}
             createdAt={createdAt}

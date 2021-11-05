@@ -5,4 +5,34 @@
   margin: 0 auto;
   margin-bottom: 50px;
   padding: 10px;
+  padding-right: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  border-left: 1px solid rgb(231, 231, 231);
+  padding: 0 5px;
+}
+
+.icon {
+  color: rgb(179, 179, 179);
+}
+
+.statsBtn {
+  padding: 5px;
+  border-radius: 3px;
+  width: 38.63px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.statsBtn:hover {
+  cursor: pointer;
+  background: rgb(228, 228, 228);
 }

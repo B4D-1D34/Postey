@@ -66,27 +66,27 @@ const ProfileSettingsBlock = () => {
   const handlePasswordUpdate = async (e) => {
     e.preventDefault();
     if (newPassword !== confirmPassword) {
-      dispatch(updateFailure(`Error: passwords don't match`));
+      dispatch(updateFailure({ message: `Error: passwords don't match` }));
       return;
     }
-    try {
-      const credential = EmailAuthProvider.credential(
-        userAuth.email,
-        oldPassword
-      );
-      reauthenticateWithCredential(userAuth, credential).then(() => {
+
+    const credential = EmailAuthProvider.credential(
+      userAuth.email,
+      oldPassword
+    );
+    reauthenticateWithCredential(userAuth, credential)
+      .then(() => {
         updatePassword(userAuth, newPassword);
-      });
-      dispatch(updateSuccess({ message: `Your password has been updated!` }));
-      setCredentials({
-        ...userCredentials,
-        oldPassword: "",
-        newPassword: "",
-        confirmPassword: "",
-      });
-    } catch ({ message }) {
-      dispatch(updateFailure({ message }));
-    }
+
+        dispatch(updateSuccess({ message: `Your password has been updated!` }));
+        setCredentials({
+          ...userCredentials,
+          oldPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        });
+      })
+      .catch(({ message }) => dispatch(updateFailure({ message })));
   };
   return (
     <div className={styles.settingsblock}>

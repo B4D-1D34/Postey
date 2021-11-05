@@ -43,7 +43,7 @@ function App() {
           path="/profile"
           render={() => (currentUser ? <ProfilePage /> : <Redirect to="/" />)}
         />
-        <Route path="/post" component={PostPage} />
+        <Route path="/post/:postId" component={PostPage} />
       </Switch>
       <NotificationBox />
     </div>

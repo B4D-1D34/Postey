@@ -38,6 +38,7 @@ const userObject = (userAuth, additionalData, snapShotData) => {
       : displayName,
     createdAt,
     authMethod,
+    rates: {},
     ...additionalData,
   };
 };
