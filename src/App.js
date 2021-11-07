@@ -3,7 +3,11 @@ import { Redirect, Route, Switch } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { getDoc } from "firebase/firestore";
 
-import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
+import {
+  auth,
+  createUserProfileDocument,
+  getDbPosts,
+} from "./firebase/firebase.utils";
 import HomePage from "./pages/homepage/homepage.component";
 import PostPage from "./pages/post/post-page.component";
 import ProfilePage from "./pages/profile/profile-page.component";
@@ -12,11 +16,19 @@ import { signInSuccess } from "./redux/user/user.actions";
 import "./App.css";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import NotificationBox from "./components/notification-box/notification-box.component";
+import {
+  fetchPostsFailure,
+  fetchPostsSuccess,
+} from "./redux/posts/posts.actions";
 
 function App() {
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
   useEffect(() => {
+    getDbPosts()
+      .then((posts) => dispatch(fetchPostsSuccess(posts)))
+      .catch((err) => dispatch(fetchPostsFailure(err)));
+
     const unsubscribe = auth.onAuthStateChanged(async (userAuth) => {
       console.log(`userAuth`, userAuth);
       if (userAuth) {

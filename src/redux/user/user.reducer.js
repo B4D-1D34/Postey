@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   error: null,
   userAuth: null,
   notification: null,
+  focusSignIn: null,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -36,6 +37,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         notification: action.payload,
+      };
+    case UserActionTypes.CURRENT_USER_UPDATE:
+      return {
+        ...state,
+        currentUser: action.payload,
       };
     default:
       return state;

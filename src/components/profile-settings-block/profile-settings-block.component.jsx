@@ -14,7 +14,11 @@ import {
 import styles from "./profile-settings-block.module.css";
 import { changeDbUserField } from "../../firebase/firebase.utils";
 import { useDispatch } from "react-redux";
-import { updateFailure, updateSuccess } from "../../redux/user/user.actions";
+import {
+  updateFailure,
+  updateSuccess,
+  currentUserUpdate,
+} from "../../redux/user/user.actions";
 
 const ProfileSettingsBlock = () => {
   const currentUser = useSelector(selectCurrentUser);
@@ -39,14 +43,10 @@ const ProfileSettingsBlock = () => {
     e.preventDefault();
     try {
       changeDbUserField(userAuth, { displayName });
+      dispatch(currentUserUpdate({ ...currentUser, displayName }));
       dispatch(
         updateSuccess({ message: `Your display name has been updated!` })
       );
-      currentUser.displayName = displayName;
-      setCredentials({
-        ...userCredentials,
-        displayName: currentUser.displayName,
-      });
     } catch ({ message }) {
       dispatch(updateFailure({ message }));
     }
@@ -55,9 +55,9 @@ const ProfileSettingsBlock = () => {
   const handleEmailUpdate = async (e) => {
     e.preventDefault();
     try {
-      await updateEmail(currentUser.displayNamel);
-      dispatch(updateSuccess({ message: `Your email has been updated!` }));
+      await updateEmail(userAuth, email);
       setCredentials({ ...userCredentials, email: userAuth.email });
+      dispatch(updateSuccess({ message: `Your email has been updated!` }));
     } catch ({ message }) {
       dispatch(updateFailure({ message }));
     }
@@ -77,14 +77,13 @@ const ProfileSettingsBlock = () => {
     reauthenticateWithCredential(userAuth, credential)
       .then(() => {
         updatePassword(userAuth, newPassword);
-
-        dispatch(updateSuccess({ message: `Your password has been updated!` }));
         setCredentials({
           ...userCredentials,
           oldPassword: "",
           newPassword: "",
           confirmPassword: "",
         });
+        dispatch(updateSuccess({ message: `Your password has been updated!` }));
       })
       .catch(({ message }) => dispatch(updateFailure({ message })));
   };

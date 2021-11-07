@@ -28,3 +28,8 @@ export const updateFailure = (error) => ({
   type: UserActionTypes.UPDATE_FAILURE,
   payload: error,
 });
+
+export const currentUserUpdate = (currentUser) => ({
+  type: UserActionTypes.CURRENT_USER_UPDATE,
+  payload: currentUser,
+});

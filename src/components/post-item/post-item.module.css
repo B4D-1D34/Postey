@@ -4,16 +4,43 @@
   width: 500px;
   margin: 0 auto;
   margin-bottom: 50px;
-  padding: 10px;
-  padding-right: 0;
+  padding: 15px;
+  padding-right: 5px;
   display: flex;
   justify-content: space-between;
+}
+
+.description {
+  padding-right: 5px;
+}
+
+.authorAndTime {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.author {
+  color: rgb(224, 123, 0);
+}
+
+.time {
+  margin-left: 15px;
+  color: rgb(139, 139, 139);
+  font-weight: 500;
+}
+
+.theme {
+  margin-bottom: 10px;
+}
+
+.content {
+  word-break: break-word;
 }
 
 .stats {
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
   border-left: 1px solid rgb(231, 231, 231);
   padding: 0 5px;

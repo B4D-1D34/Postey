@@ -10,6 +10,8 @@ import {
 import {
   getFirestore,
   getDoc,
+  getDocs,
+  collection,
   doc,
   setDoc,
   updateDoc,
@@ -32,13 +34,14 @@ const userObject = (userAuth, additionalData, snapShotData) => {
   const { providerId } = providerData[0];
   const authMethod = providerId === "google.com" ? "google" : "email/password";
   const createdAt = new Date();
+  console.log(snapShotData);
   return {
     displayName: snapShotData?.displayName
       ? snapShotData.displayName
       : displayName,
     createdAt,
     authMethod,
-    rates: {},
+    rates: snapShotData?.rates || {},
     ...additionalData,
   };
 };
@@ -98,4 +101,27 @@ export const changeDbUserField = (userAuth, field) => {
   const userRef = doc(firestore, `users/${userAuth.uid}`);
   const fieldName = Object.keys(field)[0];
   updateDoc(userRef, fieldName, field[fieldName]);
+};
+
+export const getDbPosts = async () => {
+  const postsRef = collection(firestore, `posts`);
+  const postsSnapshot = await getDocs(postsRef);
+  let posts = {};
+  for (const doc of postsSnapshot.docs) {
+    const commentsRef = collection(firestore, `posts/${doc.id}/comments`);
+    const commentsSnapshot = await getDocs(commentsRef);
+    let comments = {};
+    for (const comment of commentsSnapshot.docs) {
+      comments = { ...comments, [comment.id]: { ...comment.data() } };
+    }
+    posts = { ...posts, [doc.id]: { comments, ...doc.data() } };
+  }
+  return posts;
+};
+
+export const getAuthorName = async (author) => {
+  const authorRef = doc(firestore, `users/${author}`);
+  const authorSnapshot = await getDoc(authorRef);
+  const { displayName } = authorSnapshot.data();
+  return displayName;
 };

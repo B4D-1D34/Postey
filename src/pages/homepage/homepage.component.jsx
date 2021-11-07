@@ -1,9 +1,12 @@
 import PostItem from "../../components/post-item/post-item.component";
 import TEST_DATA from "./testPostData";
 import styles from "./homepage.module.css";
+import { useSelector } from "react-redux";
+import { selectCurrentPosts } from "../../redux/posts/posts.selectors";
 
 const HomePage = () => {
-  const posts = TEST_DATA;
+  const dbPosts = useSelector(selectCurrentPosts);
+  const posts = { ...TEST_DATA, ...dbPosts };
 
   return (
     <div className={styles.homepage}>
@@ -16,7 +19,11 @@ const HomePage = () => {
             id={key}
             author={author}
             theme={theme}
-            createdAt={createdAt}
+            createdAt={
+              createdAt?.nanoseconds
+                ? createdAt?.seconds * 1000
+                : createdAt?.seconds * 1000 + createdAt?.nanoseconds
+            }
             rating={rating}
             content={content}
             commentsLength={comments.length}
