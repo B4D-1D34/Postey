@@ -1,0 +1,30 @@
+.resizableInput {
+  position: relative;
+  margin-top: 10px;
+}
+
+.content {
+  font-family: inherit;
+  font-size: inherit;
+  resize: none;
+  overflow: hidden;
+  width: 100%;
+  line-height: 21px;
+  border: none;
+  border-radius: 5px;
+}
+
+.content:focus {
+  outline: rgba(255, 140, 0, 0.411) solid 1px;
+}
+
+.hiddenContent {
+  padding: 2px;
+  border: 1px solid transparent;
+  width: 100%;
+  line-height: 21px;
+  visibility: hidden;
+  position: absolute;
+  word-break: break-word;
+  white-space: pre-wrap;
+}

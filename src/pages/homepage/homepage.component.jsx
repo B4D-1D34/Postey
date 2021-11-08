@@ -3,6 +3,7 @@ import TEST_DATA from "./testPostData";
 import styles from "./homepage.module.css";
 import { useSelector } from "react-redux";
 import { selectCurrentPosts } from "../../redux/posts/posts.selectors";
+import NewPostForm from "../../components/new-post-form/new-post-form.component";
 
 const HomePage = () => {
   const dbPosts = useSelector(selectCurrentPosts);
@@ -10,7 +11,7 @@ const HomePage = () => {
 
   return (
     <div className={styles.homepage}>
-      <h1>Homepage</h1>
+      <NewPostForm />
       {Object.keys(posts)
         .map((key) => ({ ...posts[key], key }))
         .map(({ key, author, theme, createdAt, rating, comments, content }) => (
@@ -21,12 +22,12 @@ const HomePage = () => {
             theme={theme}
             createdAt={
               createdAt?.nanoseconds
-                ? createdAt?.seconds * 1000
-                : createdAt?.seconds * 1000 + createdAt?.nanoseconds
+                ? createdAt?.seconds * 1000 + createdAt?.nanoseconds
+                : createdAt?.seconds * 1000
             }
             rating={rating}
             content={content}
-            commentsLength={comments.length}
+            commentsLength={Object.keys(comments).length}
           />
         ))}
     </div>

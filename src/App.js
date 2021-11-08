@@ -12,7 +12,7 @@ import HomePage from "./pages/homepage/homepage.component";
 import PostPage from "./pages/post/post-page.component";
 import ProfilePage from "./pages/profile/profile-page.component";
 import Navbar from "./components/navbar/navbar.component";
-import { signInSuccess } from "./redux/user/user.actions";
+import { signInSuccess, updateFailure } from "./redux/user/user.actions";
 import "./App.css";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import NotificationBox from "./components/notification-box/notification-box.component";
@@ -32,11 +32,19 @@ function App() {
     const unsubscribe = auth.onAuthStateChanged(async (userAuth) => {
       console.log(`userAuth`, userAuth);
       if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth);
-        const userSnapshot = await getDoc(userRef);
-        const currentUser = { id: userSnapshot.id, ...userSnapshot.data() };
-        console.log(currentUser);
-        dispatch(signInSuccess({ currentUser, userAuth }));
+        try {
+          const userRef = await createUserProfileDocument(userAuth);
+          const userSnapshot = await getDoc(userRef);
+          const currentUser = { id: userSnapshot.id, ...userSnapshot.data() };
+          console.log(currentUser);
+          dispatch(signInSuccess({ currentUser, userAuth }));
+        } catch (err) {
+          dispatch(
+            updateFailure({
+              message: "Something is wrong, check your internet connection",
+            })
+          );
+        }
       }
     });
 

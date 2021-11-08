@@ -15,9 +15,9 @@ import {
   doc,
   setDoc,
   updateDoc,
+  addDoc,
+  WithFieldValue,
 } from "firebase/firestore";
-// import "firebase/firestore";
-// import "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCxBopFd46iEkJ-lHi0-6m3UcQN3_bZ4Lo",
@@ -103,6 +103,12 @@ export const changeDbUserField = (userAuth, field) => {
   updateDoc(userRef, fieldName, field[fieldName]);
 };
 
+export const changeDbPostField = (postId, field) => {
+  const postRef = doc(firestore, `posts/${postId}`);
+  const fieldName = Object.keys(field)[0];
+  updateDoc(postRef, fieldName, field[fieldName]);
+};
+
 export const getDbPosts = async () => {
   const postsRef = collection(firestore, `posts`);
   const postsSnapshot = await getDocs(postsRef);
@@ -124,4 +130,13 @@ export const getAuthorName = async (author) => {
   const authorSnapshot = await getDoc(authorRef);
   const { displayName } = authorSnapshot.data();
   return displayName;
+};
+
+export const createNewPost = async ({
+  theme,
+  content,
+  author,
+  closeComments,
+}) => {
+  const postsRef = collection(firestore, `posts`);
 };

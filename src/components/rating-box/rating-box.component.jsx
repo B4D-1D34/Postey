@@ -10,7 +10,10 @@ import {
   selectCurrentUser,
   selectUserAuth,
 } from "../../redux/user/user.selectors";
-import { changeDbUserField } from "../../firebase/firebase.utils";
+import {
+  changeDbPostField,
+  changeDbUserField,
+} from "../../firebase/firebase.utils";
 import { getPost } from "../../pages/homepage/testPostData";
 
 import styles from "./rating-box.module.css";
@@ -19,12 +22,16 @@ import {
   currentUserUpdate,
   updateFailure,
 } from "../../redux/user/user.actions";
+import { selectCurrentPosts } from "../../redux/posts/posts.selectors";
+import { postsUpdateSuccess } from "../../redux/posts/posts.actions";
 
 const RatingBox = ({ postId }) => {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
   const userAuth = useSelector(selectUserAuth);
-  const { rating } = getPost(postId);
+  const posts = useSelector(selectCurrentPosts);
+  const { rating } = posts[postId];
+  //   getPost(postId);
   const userRate = currentUser?.rates[postId];
 
   const handleRate = ({ target }) => {
@@ -33,14 +40,37 @@ const RatingBox = ({ postId }) => {
       return;
     }
     let currentRate = target.getAttribute("datatype");
-
-    if (userRate === currentRate) {
-      currentRate = "undefined";
+    let postRating = 0;
+    if (
+      (userRate === "true" && currentRate === "true") ||
+      (!userRate && currentRate === "false")
+    ) {
+      postRating = -1;
+    } else if (userRate === "true" && currentRate === "false") {
+      postRating = -2;
+    } else if (
+      (userRate === "false" && currentRate === "false") ||
+      (!userRate && currentRate === "true")
+    ) {
+      postRating = 1;
+    } else if (userRate === "false" && currentRate === "true") {
+      postRating = 2;
     }
+    if (userRate === currentRate) {
+      currentRate = "";
+    }
+
     try {
       changeDbUserField(userAuth, {
         rates: { ...currentUser?.rates, [postId]: currentRate },
       });
+      changeDbPostField(postId, { rating: rating + postRating });
+      dispatch(
+        postsUpdateSuccess({
+          ...posts,
+          [postId]: { ...posts[postId], rating: rating + postRating },
+        })
+      );
       dispatch(
         currentUserUpdate({
           ...currentUser,
