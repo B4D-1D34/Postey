@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import styles from "./resizable-input.module.css";
 
-const ResizableInput = ({ handleChange }) => {
+const ResizableInput = ({ handleChange, content }) => {
   const hiddenDiv = useRef();
   const visibleInput = useRef();
   const handleResize = (e) => {
@@ -26,6 +26,7 @@ const ResizableInput = ({ handleChange }) => {
         className={styles.content}
         name="content"
         ref={visibleInput}
+        value={content}
         placeholder="Type here..."
         onChange={handleResize}
         required

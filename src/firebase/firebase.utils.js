@@ -16,7 +16,7 @@ import {
   setDoc,
   updateDoc,
   addDoc,
-  WithFieldValue,
+  deleteDoc,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -139,4 +139,21 @@ export const createNewPost = async ({
   closeComments,
 }) => {
   const postsRef = collection(firestore, `posts`);
+  const createdAt = new Date();
+  const docRef = await addDoc(postsRef, {
+    theme,
+    content,
+    author,
+    closeComments,
+    createdAt,
+    rating: 0,
+  });
+  const docSnapshot = await getDoc(docRef);
+
+  return { id: docSnapshot.id, data: { ...docSnapshot.data() } };
+};
+
+export const deletePost = async (postId) => {
+  const docRef = doc(firestore, `posts/${postId}`);
+  return await deleteDoc(docRef);
 };

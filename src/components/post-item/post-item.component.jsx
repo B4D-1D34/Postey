@@ -1,10 +1,13 @@
 import { faCommentAlt, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRef } from "react";
-import { useEffect } from "react";
+import { useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getAuthorName } from "../../firebase/firebase.utils";
+
+import { selectCurrentUser } from "../../redux/user/user.selectors";
 import { countTime } from "../../timeCountHelper";
+import DeletePostButton from "../delete-post-button/delete-post-button.component";
 import styles from "./post-item.module.css";
 
 const PostItem = ({
@@ -16,22 +19,22 @@ const PostItem = ({
   content,
   commentsLength,
 }) => {
-  // let authorName;
+  const currentUser = useSelector(selectCurrentUser);
   const authorName = useRef();
+
   useEffect(() => {
-    if (author === "0JA9NqvvKoWFstaSCbBxjDifRxR2") {
-      getAuthorName(author).then((name) => {
-        authorName.current.innerText = name;
-      });
-    }
-  }, []);
+    getAuthorName(author).then((name) => {
+      authorName.current.innerText = name;
+    });
+  }, [author]);
+
   return (
     <div className={styles.postItem}>
       <Link to={`post/${id}`}>
         <div className={styles.description}>
           <div className={styles.authorAndTime}>
             <h4 className={styles.author} ref={authorName}>
-              {author}
+              user
             </h4>
             <h5 className={styles.time}>{countTime(createdAt)}</h5>
           </div>
@@ -48,6 +51,7 @@ const PostItem = ({
           <FontAwesomeIcon icon={faStar} className={styles.icon} />
           {rating}
         </div>
+        {currentUser?.id === author ? <DeletePostButton id={id} /> : null}
       </div>
     </div>
   );

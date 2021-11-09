@@ -3,15 +3,20 @@ import styles from "./new-post-form.module.css";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
 import ResizableInput from "../resizable-input/resizable-input.component";
 import { useState } from "react";
+import { createNewPost } from "../../firebase/firebase.utils";
+import { useDispatch } from "react-redux";
+import { postUpdateSuccess } from "../../redux/posts/posts.actions";
+import { updateFailure, updateSuccess } from "../../redux/user/user.actions";
 
 const NewPostForm = () => {
+  const dispatch = useDispatch();
   const [post, setPost] = useState({
     theme: "",
     content: "",
     closeComments: false,
   });
   const currentUser = useSelector(selectCurrentUser);
-  const { theme, closeComments } = post;
+  const { theme, content, closeComments } = post;
 
   const handleChange = ({ target }) => {
     if (target.type !== "checkbox") {
@@ -25,6 +30,13 @@ const NewPostForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    createNewPost({ theme, content, closeComments, author: currentUser.id })
+      .then((doc) => {
+        dispatch(postUpdateSuccess(doc));
+        dispatch(updateSuccess({ message: "Successfully posted!" }));
+        setPost({ theme: "", content: "", closeComments: false });
+      })
+      .catch(({ message }) => dispatch(updateFailure({ message })));
   };
   return (
     <form className={styles.newPostForm} onSubmit={handleSubmit}>
@@ -33,13 +45,14 @@ const NewPostForm = () => {
         <input
           className={styles.theme}
           onChange={handleChange}
+          autoComplete="off"
           name="theme"
           value={theme}
           placeholder="new post"
         />
       </div>
       <div className={styles.visibleWithFocus}>
-        <ResizableInput handleChange={handleChange} />
+        <ResizableInput handleChange={handleChange} content={content} />
         <div className={styles.submitGroup}>
           <button className={styles.submitBtn} type="submit">
             Publish

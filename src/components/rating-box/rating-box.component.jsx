@@ -14,7 +14,6 @@ import {
   changeDbPostField,
   changeDbUserField,
 } from "../../firebase/firebase.utils";
-import { getPost } from "../../pages/homepage/testPostData";
 
 import styles from "./rating-box.module.css";
 import { useDispatch } from "react-redux";
@@ -23,7 +22,7 @@ import {
   updateFailure,
 } from "../../redux/user/user.actions";
 import { selectCurrentPosts } from "../../redux/posts/posts.selectors";
-import { postsUpdateSuccess } from "../../redux/posts/posts.actions";
+import { postUpdateSuccess } from "../../redux/posts/posts.actions";
 
 const RatingBox = ({ postId }) => {
   const dispatch = useDispatch();
@@ -66,9 +65,11 @@ const RatingBox = ({ postId }) => {
       });
       changeDbPostField(postId, { rating: rating + postRating });
       dispatch(
-        postsUpdateSuccess({
-          ...posts,
-          [postId]: { ...posts[postId], rating: rating + postRating },
+        postUpdateSuccess({
+          // ...posts,
+          // [postId]: { ...posts[postId], rating: rating + postRating },
+          id: postId,
+          data: { ...posts[postId], rating: rating + postRating },
         })
       );
       dispatch(

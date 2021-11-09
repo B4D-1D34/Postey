@@ -10,12 +10,17 @@ export const fetchPostsFailure = (error) => ({
   payload: error,
 });
 
-export const postsUpdateSuccess = (posts) => ({
-  type: PostsActionTypes.POSTS_UPDATE_SUCCESS,
-  payload: posts,
+export const postUpdateSuccess = (post) => ({
+  type: PostsActionTypes.POST_UPDATE_SUCCESS,
+  payload: post,
 });
 
-export const postsUpdateFailure = (error) => ({
-  type: PostsActionTypes.POSTS_UPDATE_FAILURE,
+export const postUpdateFailure = (error) => ({
+  type: PostsActionTypes.POST_UPDATE_FAILURE,
   payload: error,
+});
+
+export const postDelete = (postId) => ({
+  type: PostsActionTypes.POST_DELETE,
+  payload: postId,
 });

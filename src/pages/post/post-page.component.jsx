@@ -1,48 +1,39 @@
-import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
+import Loader from "../../components/loader/loader.component";
+import PostDataBlock from "../../components/post-data-block/post-data-block.component";
 
 import RatingBox from "../../components/rating-box/rating-box.component";
-import { getAuthorName } from "../../firebase/firebase.utils";
 import { selectCurrentPosts } from "../../redux/posts/posts.selectors";
-import { countTime } from "../../timeCountHelper";
-import { getPost } from "../homepage/testPostData";
+import { selectCurrentUser } from "../../redux/user/user.selectors";
 import styles from "./post-page.module.css";
 
 const PostPage = () => {
   const { postId } = useParams();
   const posts = useSelector(selectCurrentPosts);
-  const { content, author, closeComments, comments, createdAt, theme } =
-    posts[postId];
-  // getPost(postId);
-  const time = countTime(
-    createdAt.nanoseconds
-      ? createdAt.seconds * 1000 + createdAt.nanoseconds
-      : createdAt.seconds * 1000
-  );
-  // console.log(currentUser?.rates);
-
-  const authorName = useRef();
-  useEffect(() => {
-    if (author === "0JA9NqvvKoWFstaSCbBxjDifRxR2") {
-      getAuthorName(author).then((name) => {
-        authorName.current.innerText = name;
-      });
-    }
-  }, []);
+  const currentUser = useSelector(selectCurrentUser);
 
   return (
-    <div className={styles.contentblock}>
-      <div className={styles.authorAndTime}>
-        <h4 className={styles.author} ref={authorName}>
-          {author}
-        </h4>
-        <h5 className={styles.time}>{time}</h5>
-      </div>
-      <h1 className={styles.theme}>{theme}</h1>
-      <p className={styles.content}>{content}</p>
-      <RatingBox postId={postId} />
-    </div>
+    <>
+      {posts ? (
+        <div className={styles.contentblock}>
+          <PostDataBlock
+            theme={posts[postId].theme}
+            content={posts[postId].content}
+            author={posts[postId].author}
+            closeComments={posts[postId].closeComments}
+            comments={posts[postId].comments}
+            createdAt={posts[postId].createdAt}
+            id={postId}
+            owner={currentUser?.id === posts[postId].author}
+          />
+          <RatingBox postId={postId} />
+        </div>
+      ) : (
+        <Loader />
+      )}
+    </>
   );
 };
+
 export default PostPage;

@@ -5,27 +5,3 @@
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 10px;
 }
-
-.authorAndTime {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.author {
-  color: rgb(224, 123, 0);
-}
-
-.time {
-  margin-left: 15px;
-  color: rgb(139, 139, 139);
-  font-weight: 500;
-}
-
-.theme {
-  margin-bottom: 10px;
-}
-
-.content {
-  word-break: break-word;
-}
