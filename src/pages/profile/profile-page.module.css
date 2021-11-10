@@ -3,22 +3,8 @@
   padding: 10px;
 }
 
-.sidebar {
+.sidebarContainer {
   margin: 40px 30px auto auto;
-  /* margin-left: auto; */
-  padding: 15px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  border-radius: 10px;
-}
-
-.sidebarItem {
-  padding: 3px 10px;
-  border-radius: 5px;
-}
-
-.sidebarItem:hover {
-  cursor: pointer;
-  background: rgb(238, 238, 238);
 }
 
 .contentblock {

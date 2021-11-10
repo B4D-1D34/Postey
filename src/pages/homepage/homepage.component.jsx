@@ -12,32 +12,42 @@ const HomePage = () => {
 
   return (
     <div className={styles.homepage}>
-      {currentUser && posts ? <NewPostForm /> : null}
-      {posts ? (
-        Object.keys(posts)
-          .map((key) => ({ ...posts[key], key }))
-          .map(
-            ({ key, author, theme, createdAt, rating, comments, content }) => (
-              <PostItem
-                key={key}
-                id={key}
-                author={author}
-                theme={theme}
-                createdAt={
-                  createdAt?.nanoseconds
-                    ? createdAt?.seconds * 1000 +
-                      createdAt?.nanoseconds / 1000000
-                    : createdAt?.seconds * 1000
-                }
-                rating={rating}
-                content={content}
-                commentsLength={comments ? Object.keys(comments).length : 0}
-              />
+      <div className={styles.mainContentContainer}>
+        {currentUser && posts ? <NewPostForm /> : null}
+        {posts ? (
+          Object.keys(posts)
+            .map((key) => ({ ...posts[key], key }))
+            .map(
+              ({
+                key,
+                author,
+                theme,
+                createdAt,
+                rating,
+                comments,
+                content,
+              }) => (
+                <PostItem
+                  key={key}
+                  id={key}
+                  author={author}
+                  theme={theme}
+                  createdAt={
+                    createdAt?.nanoseconds
+                      ? createdAt?.seconds * 1000 +
+                        createdAt?.nanoseconds / 1000000
+                      : createdAt?.seconds * 1000
+                  }
+                  rating={rating}
+                  content={content}
+                  commentsLength={comments ? Object.keys(comments).length : 0}
+                />
+              )
             )
-          )
-      ) : (
-        <Loader />
-      )}
+        ) : (
+          <Loader />
+        )}
+      </div>
     </div>
   );
 };

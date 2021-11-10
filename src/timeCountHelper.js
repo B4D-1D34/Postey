@@ -17,8 +17,16 @@ export const countTime = (date) => {
   } else if (hoursPassed > 1) {
     return Math.floor(hoursPassed) + `h`;
   } else if (minutesPassed > 1) {
-    return Math.floor(minutesPassed) + ` minutes`;
+    if (Math.floor(minutesPassed) > 1) {
+      return Math.floor(minutesPassed) + ` minutes`;
+    } else {
+      return Math.floor(minutesPassed) + ` minute`;
+    }
   } else if (secondsPassed > 1) {
-    return Math.floor(secondsPassed) + ` seconds`;
+    if (Math.floor(secondsPassed) > 1) {
+      return Math.floor(secondsPassed) + ` seconds`;
+    } else {
+      return Math.floor(secondsPassed) + ` second`;
+    }
   }
 };
