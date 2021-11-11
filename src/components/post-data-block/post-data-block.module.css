@@ -20,6 +20,10 @@
   font-weight: 500;
 }
 
+.manageBtns {
+  display: flex;
+}
+
 .theme {
   margin-bottom: 10px;
 }

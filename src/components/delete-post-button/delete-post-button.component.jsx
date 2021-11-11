@@ -47,9 +47,9 @@ const DeletePostButton = ({ id }) => {
       >
         <div ref={confirmDiv} className={styles.deleteConfirmation}>
           Are you sure? You won't be able to restore this post later.
-          <div onClick={handleDelete} className={styles.confirmBtn}>
+          <button onClick={handleDelete} className={styles.confirmBtn}>
             Confirm
-          </div>
+          </button>
         </div>
       </div>
     </>

@@ -157,3 +157,10 @@ export const deletePost = async (postId) => {
   const docRef = doc(firestore, `posts/${postId}`);
   return await deleteDoc(docRef);
 };
+
+export const updatePost = async (postId, { content, theme }) => {
+  const docRef = doc(firestore, `posts/${postId}`);
+  await updateDoc(docRef, { content: content, theme: theme });
+  const docSnapshot = await getDoc(docRef);
+  return { id: docSnapshot.id, data: { ...docSnapshot.data() } };
+};

@@ -5,6 +5,7 @@ import { getAuthorName } from "../../firebase/firebase.utils";
 
 import styles from "./post-data-block.module.css";
 import DeletePostButton from "../delete-post-button/delete-post-button.component";
+import EditPostButton from "../edit-post-button/edit-post-button.component";
 
 const PostDataBlock = ({
   theme,
@@ -17,18 +18,24 @@ const PostDataBlock = ({
   owner,
 }) => {
   const authorName = useRef();
+  const contentBlock = useRef();
 
-  const time = countTime(
-    createdAt?.nanoseconds
-      ? createdAt?.seconds * 1000 + createdAt?.nanoseconds / 1000000
-      : createdAt?.seconds * 1000
-  );
+  const time = createdAt?.nanoseconds
+    ? createdAt?.seconds * 1000 + createdAt?.nanoseconds / 1000000
+    : createdAt?.seconds * 1000;
+
+  const countedTime = countTime(time);
+
+  const isEditTimePassed = Math.floor((Date.now() - time) / 1000 / 60) > 15;
 
   useEffect(() => {
     getAuthorName(author).then((name) => {
       authorName.current.innerText = name;
     });
-  }, [author]);
+    if (contentBlock.current) {
+      contentBlock.current.innerHTML = content.replaceAll("\n", "<br />");
+    }
+  }, [author, content]);
 
   return (
     <>
@@ -37,12 +44,25 @@ const PostDataBlock = ({
           <h4 className={styles.author} ref={authorName}>
             user
           </h4>
-          <h5 className={styles.time}>{time}</h5>
+          <h5 className={styles.time}>{countedTime}</h5>
         </div>
-        {owner ? <DeletePostButton id={id} /> : null}
+        {owner ? (
+          <div className={styles.manageBtns}>
+            {!isEditTimePassed ? (
+              <EditPostButton
+                id={id}
+                initialContent={content}
+                initialTheme={theme}
+              />
+            ) : null}
+            <DeletePostButton id={id} />{" "}
+          </div>
+        ) : null}
       </div>
       <h1 className={styles.theme}>{theme}</h1>
-      <p className={styles.content}>{content}</p>
+      <p className={styles.content} ref={contentBlock}>
+        {content}
+      </p>
     </>
   );
 };

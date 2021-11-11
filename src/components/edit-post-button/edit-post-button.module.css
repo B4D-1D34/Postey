@@ -1,0 +1,73 @@
+.statsBtn {
+  padding: 5px;
+  border-radius: 3px;
+  width: 38.63px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.statsBtn:hover {
+  cursor: pointer;
+  background: rgb(228, 228, 228);
+}
+
+.icon {
+  color: rgb(179, 179, 179);
+  font-size: 13px;
+}
+
+.editConfirmationBG {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.7);
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 10;
+  overflow: clip;
+}
+
+.editConfirmation {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: white;
+  transform: translate(-50%, -50%);
+  padding: 20px 40px;
+  border-radius: 20px;
+}
+
+.editHeading {
+  margin-bottom: 15px;
+}
+
+.confirmBtn {
+  align-self: center;
+  background: rgb(238, 127, 37);
+  border: 1px solid rgb(238, 127, 37);
+  color: white;
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-top: 15px;
+}
+
+.confirmBtn:hover {
+  cursor: pointer;
+}
+
+.theme {
+  width: 100%;
+  font-size: 32px;
+  font-weight: 700;
+  font-family: inherit;
+  border: none;
+  border-radius: 7px;
+  text-align: center;
+}
+
+.theme:focus {
+  outline: rgba(255, 140, 0, 0.411) solid 1px;
+}

@@ -20,6 +20,7 @@ import {
   fetchPostsFailure,
   fetchPostsSuccess,
 } from "./redux/posts/posts.actions";
+import PostNotFound from "./components/post-not-found/post-not-found.component";
 
 function App() {
   const currentUser = useSelector(selectCurrentUser);
@@ -64,6 +65,7 @@ function App() {
           render={() => (currentUser ? <ProfilePage /> : <Redirect to="/" />)}
         />
         <Route path="/post/:postId" component={PostPage} />
+        <Route path="*" component={PostNotFound} />
       </Switch>
       <NotificationBox />
     </div>

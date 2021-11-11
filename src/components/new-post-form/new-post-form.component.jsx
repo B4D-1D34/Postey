@@ -30,10 +30,23 @@ const NewPostForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createNewPost({ theme, content, closeComments, author: currentUser.id })
+    if (!content.trim()) {
+      dispatch(updateFailure({ message: "You can't post an empty message" }));
+      return;
+    }
+    createNewPost({
+      theme,
+      content,
+      closeComments,
+      author: currentUser.id,
+    })
       .then((doc) => {
         dispatch(postUpdateSuccess(doc));
-        dispatch(updateSuccess({ message: "Successfully posted!" }));
+        dispatch(
+          updateSuccess({
+            message: "Successfully posted! You can edit post within 15 minutes",
+          })
+        );
         setPost({ theme: "", content: "", closeComments: false });
       })
       .catch(({ message }) => dispatch(updateFailure({ message })));

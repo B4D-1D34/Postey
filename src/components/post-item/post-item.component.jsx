@@ -21,12 +21,18 @@ const PostItem = ({
 }) => {
   const currentUser = useSelector(selectCurrentUser);
   const authorName = useRef();
+  const contentBlock = useRef();
 
   useEffect(() => {
     getAuthorName(author).then((name) => {
-      authorName.current.innerText = name;
+      if (authorName.current) {
+        authorName.current.innerText = name;
+      }
     });
-  }, [author]);
+    if (contentBlock.current) {
+      contentBlock.current.innerHTML = content.replaceAll("\n", "<br />");
+    }
+  }, [author, content]);
 
   return (
     <div className={styles.postItem}>
@@ -39,7 +45,9 @@ const PostItem = ({
             <h5 className={styles.time}>{countTime(createdAt)}</h5>
           </div>
           <h1 className={styles.theme}>{theme}</h1>
-          <p className={styles.content}>{content}</p>
+          <p ref={contentBlock} className={styles.content}>
+            {content}
+          </p>
         </div>
       </Link>
       <div className={styles.stats}>
