@@ -1,6 +1,7 @@
 .profilepage {
   display: flex;
   padding: 10px;
+  height: max-content;
 }
 
 .sidebarContainer {

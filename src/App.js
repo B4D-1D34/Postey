@@ -21,6 +21,7 @@ import {
   fetchPostsSuccess,
 } from "./redux/posts/posts.actions";
 import PostNotFound from "./components/post-not-found/post-not-found.component";
+import UpBackButton from "./components/up-back-button/up-back-button.component";
 
 function App() {
   const currentUser = useSelector(selectCurrentUser);
@@ -57,16 +58,19 @@ function App() {
   return (
     <div>
       <Navbar />
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route
-          exact
-          path="/profile"
-          render={() => (currentUser ? <ProfilePage /> : <Redirect to="/" />)}
-        />
-        <Route path="/post/:postId" component={PostPage} />
-        <Route path="*" component={PostNotFound} />
-      </Switch>
+      <div className="page">
+        <UpBackButton />
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route
+            exact
+            path="/profile"
+            render={() => (currentUser ? <ProfilePage /> : <Redirect to="/" />)}
+          />
+          <Route path="/post/:postId" component={PostPage} />
+          <Route path="*" component={PostNotFound} />
+        </Switch>
+      </div>
       <NotificationBox />
     </div>
   );

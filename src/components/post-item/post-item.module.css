@@ -10,6 +10,7 @@
 
 .description {
   padding-right: 5px;
+  width: 100%;
 }
 
 .authorAndTime {
@@ -32,10 +33,49 @@
   margin-bottom: 10px;
 }
 
+.contentWrapper {
+  max-height: 130px;
+  overflow: hidden;
+  position: relative;
+}
+
+.exposed {
+  max-height: none;
+  padding-bottom: 35px;
+}
+
 .content {
   word-break: break-word;
-  overflow: hidden;
-  max-height: 120px;
+}
+
+.exposeContent {
+  background: linear-gradient(to top, white 80%, transparent);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  padding-top: 20px;
+}
+
+.exposeBtn {
+  border: 1px solid rgb(224, 123, 0);
+  color: rgb(224, 123, 0);
+  padding: 3px 12px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+}
+
+.exposeContent:hover {
+  cursor: pointer;
+}
+
+.exposeContent:hover .exposeBtn {
+  background: rgb(224, 123, 0);
+  color: white;
 }
 
 .stats {

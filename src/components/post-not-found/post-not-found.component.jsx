@@ -5,7 +5,7 @@ const PostNotFound = () => {
   return (
     <div className={styles.notFound}>
       <img className={styles.image} src={image} alt="page not found" />
-      <h1>Sorry, the post you're looking for doesn't exist</h1>
+      <h1>Sorry, the page you're looking for doesn't exist</h1>
     </div>
   );
 };
