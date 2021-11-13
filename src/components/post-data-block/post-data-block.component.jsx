@@ -6,6 +6,7 @@ import { getAuthorName } from "../../firebase/firebase.utils";
 import styles from "./post-data-block.module.css";
 import DeletePostButton from "../delete-post-button/delete-post-button.component";
 import EditPostButton from "../edit-post-button/edit-post-button.component";
+import CloseCommentsButton from "../close-comments-button/close-comments-button.component";
 
 const PostDataBlock = ({
   theme,
@@ -55,6 +56,7 @@ const PostDataBlock = ({
                 initialTheme={theme}
               />
             ) : null}
+            <CloseCommentsButton closeComments={closeComments} id={id} />
             <DeletePostButton id={id} />{" "}
           </div>
         ) : null}

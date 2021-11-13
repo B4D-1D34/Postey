@@ -13,7 +13,6 @@ import PostPage from "./pages/post/post-page.component";
 import ProfilePage from "./pages/profile/profile-page.component";
 import Navbar from "./components/navbar/navbar.component";
 import { signInSuccess, updateFailure } from "./redux/user/user.actions";
-import "./App.css";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import NotificationBox from "./components/notification-box/notification-box.component";
 import {
@@ -22,6 +21,8 @@ import {
 } from "./redux/posts/posts.actions";
 import PostNotFound from "./components/post-not-found/post-not-found.component";
 import UpBackButton from "./components/up-back-button/up-back-button.component";
+
+import "./App.css";
 
 function App() {
   const currentUser = useSelector(selectCurrentUser);

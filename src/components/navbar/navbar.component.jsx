@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import SignInForm from "../sign-in-form/sign-in-form.component";
 import { useState } from "react";
 import SignUpForm from "../sign-up-form/sign-up-form.component";
-import { Link } from "react-router-dom";
+import CustomLink from "../custom-link/custom-link.component";
 
 const Navbar = () => {
   const [isSignUpShown, setIsSignUpShown] = useState(false);
@@ -23,18 +23,18 @@ const Navbar = () => {
 
   return (
     <div className={styles.navbar}>
-      <Link to="/" className={styles.sitename}>
-        Postey
-      </Link>
+      <CustomLink url="/">
+        <h1 className={styles.sitename}>Postey</h1>
+      </CustomLink>
       {isSignUpShown ? (
         <SignUpForm setIsSignUpShown={setIsSignUpShown} />
       ) : null}
       <div className={styles.btnContainer}>
         {currentUser ? (
           <>
-            <Link to="/profile">
+            <CustomLink url="/profile">
               <button className={styles.navbarBtn}>Profile</button>
-            </Link>
+            </CustomLink>
             <button className={styles.navbarBtn} onClick={appSignOut}>
               Sign Out
             </button>

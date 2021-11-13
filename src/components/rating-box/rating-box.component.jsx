@@ -66,8 +66,6 @@ const RatingBox = ({ postId }) => {
       changeDbPostField(postId, { rating: rating + postRating });
       dispatch(
         postUpdateSuccess({
-          // ...posts,
-          // [postId]: { ...posts[postId], rating: rating + postRating },
           id: postId,
           data: { ...posts[postId], rating: rating + postRating },
         })

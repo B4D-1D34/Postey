@@ -7,13 +7,13 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRef, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { getAuthorName } from "../../firebase/firebase.utils";
 
 import { selectCurrentUser } from "../../redux/user/user.selectors";
 import { countTime } from "../../timeCountHelper";
 import DeletePostButton from "../delete-post-button/delete-post-button.component";
 import styles from "./post-item.module.css";
+import CustomLink from "../custom-link/custom-link.component";
 
 const PostItem = ({
   id,
@@ -52,7 +52,7 @@ const PostItem = ({
   return (
     <div className={styles.postItem}>
       <div className={styles.description}>
-        <Link to={`post/${id}`}>
+        <CustomLink url={`post/${id}`}>
           <div className={styles.authorAndTime}>
             <h4 className={styles.author} ref={authorName}>
               user
@@ -60,7 +60,7 @@ const PostItem = ({
             <h5 className={styles.time}>{countTime(createdAt)}</h5>
           </div>
           <h1 className={styles.theme}>{theme}</h1>
-        </Link>
+        </CustomLink>
         <div ref={contentWrapper} className={styles.contentWrapper}>
           <p ref={contentBlock} className={styles.content}>
             {content}

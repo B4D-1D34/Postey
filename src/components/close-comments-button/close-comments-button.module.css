@@ -1,0 +1,46 @@
+.icon {
+  color: rgb(179, 179, 179);
+}
+
+.btnWrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.statsBtn {
+  padding: 5px;
+  border-radius: 3px;
+  width: 38.63px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  height: 100%;
+}
+
+.statsBtn:hover {
+  cursor: pointer;
+  background: rgb(228, 228, 228);
+}
+
+.hint {
+  position: absolute;
+  top: -110%;
+  left: -10px;
+  color: white;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 3px;
+  border-radius: 3px;
+  width: max-content;
+  font-size: 14px;
+  transition: all 0.3s;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.statsBtn:hover ~ .hint {
+  visibility: visible;
+  opacity: 1;
+}
