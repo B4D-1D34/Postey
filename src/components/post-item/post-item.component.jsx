@@ -87,7 +87,7 @@ const PostItem = ({
           <FontAwesomeIcon icon={faStar} className={styles.icon} />
           {rating}
         </div>
-        {currentUser?.id === author ? <DeletePostButton id={id} /> : null}
+        {currentUser?.id === author ? <DeletePostButton postId={id} /> : null}
       </div>
     </div>
   );

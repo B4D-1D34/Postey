@@ -1,0 +1,38 @@
+.comment {
+  margin: 10px auto;
+  width: 100%;
+  padding: 15px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 10px;
+  height: max-content;
+}
+
+.postsHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.authorAndTime {
+  display: flex;
+  align-items: center;
+}
+
+.author {
+  color: rgb(224, 123, 0);
+}
+
+.time {
+  margin-left: 15px;
+  color: rgb(139, 139, 139);
+  font-weight: 500;
+}
+
+.manageBtns {
+  display: flex;
+}
+
+.content {
+  word-break: break-word;
+}

@@ -35,6 +35,22 @@ const postsReducer = (state = INITIAL_STATE, action) => {
             return (acc = { ...acc, [key]: posts[key] });
           }, {}),
       };
+    case PostsActionTypes.COMMENT_DELETE:
+      const { postId, commentId } = action.payload;
+      return {
+        ...state,
+        posts: {
+          ...posts,
+          [postId]: {
+            ...posts[postId],
+            comments: Object.keys(posts[postId].comments)
+              .filter((key) => key !== commentId)
+              .reduce((acc, key) => {
+                return (acc = { ...acc, [key]: posts[postId].comments[key] });
+              }, {}),
+          },
+        },
+      };
     default:
       return state;
   }

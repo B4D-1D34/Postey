@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
+import CommentSection from "../../components/comment-section/comment-section.component";
 import Loader from "../../components/loader/loader.component";
 import PostDataBlock from "../../components/post-data-block/post-data-block.component";
 import PostNotFound from "../../components/post-not-found/post-not-found.component";
@@ -18,18 +19,24 @@ const PostPage = () => {
     <>
       {posts ? (
         posts[postId] ? (
-          <div className={styles.contentblock}>
-            <PostDataBlock
-              theme={posts[postId].theme}
-              content={posts[postId].content}
-              author={posts[postId].author}
-              closeComments={posts[postId].closeComments}
+          <div>
+            <div className={styles.contentblock}>
+              <PostDataBlock
+                theme={posts[postId].theme}
+                content={posts[postId].content}
+                author={posts[postId].author}
+                closeComments={posts[postId].closeComments}
+                createdAt={posts[postId].createdAt}
+                id={postId}
+                owner={currentUser?.id === posts[postId].author}
+              />
+              <RatingBox postId={postId} />
+            </div>
+            <CommentSection
               comments={posts[postId].comments}
-              createdAt={posts[postId].createdAt}
-              id={postId}
-              owner={currentUser?.id === posts[postId].author}
+              postAuthor={posts[postId].author}
+              postId={postId}
             />
-            <RatingBox postId={postId} />
           </div>
         ) : (
           <PostNotFound />

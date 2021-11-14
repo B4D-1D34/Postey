@@ -109,6 +109,12 @@ export const changeDbPostField = (postId, field) => {
   updateDoc(postRef, fieldName, field[fieldName]);
 };
 
+export const changeDbCommentField = (postId, commentId, field) => {
+  const commentRef = doc(firestore, `posts/${postId}/comments/${commentId}`);
+  const fieldName = Object.keys(field)[0];
+  updateDoc(commentRef, fieldName, field[fieldName]);
+};
+
 export const getDbPosts = async () => {
   const postsRef = collection(firestore, `posts`);
   const postsSnapshot = await getDocs(postsRef);
@@ -156,6 +162,11 @@ export const createNewPost = async ({
 export const deletePost = async (postId) => {
   const docRef = doc(firestore, `posts/${postId}`);
   return await deleteDoc(docRef);
+};
+
+export const deleteComment = async (postId, commentId) => {
+  const commentRef = doc(firestore, `posts/${postId}/comments/${commentId}`);
+  return await deleteDoc(commentRef);
 };
 
 export const updatePost = async (postId, { content, theme }) => {

@@ -1,33 +1,27 @@
 import { useEffect, useRef } from "react";
-
-import { countTime } from "../../timeCountHelper";
 import { getAuthorName } from "../../firebase/firebase.utils";
-
-import styles from "./post-data-block.module.css";
+import { countTime } from "../../timeCountHelper";
 import DeletePostButton from "../delete-post-button/delete-post-button.component";
 import EditPostButton from "../edit-post-button/edit-post-button.component";
-import CloseCommentsButton from "../close-comments-button/close-comments-button.component";
+import RatingBox from "../rating-box/rating-box.component";
+import styles from "./comment.module.css";
 
-const PostDataBlock = ({
-  theme,
-  content,
-  createdAt,
-  author,
-  closeComments,
-  comments,
+const Comment = ({
   id,
+  author,
+  content,
+  time,
+  rating,
+  replyReference,
   owner,
+  postAuthor,
+  postId,
 }) => {
   const authorName = useRef();
   const contentBlock = useRef();
 
-  const time = createdAt?.nanoseconds
-    ? createdAt?.seconds * 1000 + createdAt?.nanoseconds / 1000000
-    : createdAt?.seconds * 1000;
-
-  const countedTime = countTime(time);
-
   const isEditTimePassed = Math.floor((Date.now() - time) / 1000 / 60) > 15;
+  const countedTime = countTime(time);
 
   useEffect(() => {
     getAuthorName(author).then((name) => {
@@ -39,7 +33,7 @@ const PostDataBlock = ({
   }, [author, content]);
 
   return (
-    <>
+    <div className={styles.comment}>
       <div className={styles.postsHead}>
         <div className={styles.authorAndTime}>
           <h4 className={styles.author} ref={authorName}>
@@ -50,23 +44,21 @@ const PostDataBlock = ({
         {owner ? (
           <div className={styles.manageBtns}>
             {!isEditTimePassed ? (
-              <EditPostButton
-                id={id}
-                initialContent={content}
-                initialTheme={theme}
-              />
+              <EditPostButton id={id} initialContent={content} />
             ) : null}
-            <CloseCommentsButton closeComments={closeComments} id={id} />
-            <DeletePostButton postId={id} />{" "}
+            <DeletePostButton id={id} />{" "}
+          </div>
+        ) : postAuthor ? (
+          <div className={styles.manageBtns}>
+            <DeletePostButton postId={postId} commentId={id} />{" "}
           </div>
         ) : null}
       </div>
-      <h1 className={styles.theme}>{theme}</h1>
       <p className={styles.content} ref={contentBlock}>
         {content}
       </p>
-    </>
+      <RatingBox postId={postId} commentId={id} />
+    </div>
   );
 };
-
-export default PostDataBlock;
+export default Comment;
