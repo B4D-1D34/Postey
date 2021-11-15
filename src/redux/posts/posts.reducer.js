@@ -35,6 +35,25 @@ const postsReducer = (state = INITIAL_STATE, action) => {
             return (acc = { ...acc, [key]: posts[key] });
           }, {}),
       };
+    case PostsActionTypes.COMMENT_UPDATE:
+      const { data } = action.payload;
+      const fieldName = Object.keys(data.value)[0];
+      return {
+        ...state,
+        posts: {
+          ...posts,
+          [data.postId]: {
+            ...posts[data.postId],
+            comments: {
+              ...posts[data.postId].comments,
+              [data.commentId]: {
+                ...posts[data.postId].comments[data.commentId],
+                [fieldName]: data.value[fieldName],
+              },
+            },
+          },
+        },
+      };
     case PostsActionTypes.COMMENT_DELETE:
       const { postId, commentId } = action.payload;
       return {

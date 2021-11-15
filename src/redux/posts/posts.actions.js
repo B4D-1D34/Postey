@@ -29,3 +29,8 @@ export const commentDelete = (postIdAndcommentId) => ({
   type: PostsActionTypes.COMMENT_DELETE,
   payload: postIdAndcommentId,
 });
+
+export const commentUpdate = (postIdAndcommentIdAndData) => ({
+  type: PostsActionTypes.COMMENT_UPDATE,
+  payload: postIdAndcommentIdAndData,
+});

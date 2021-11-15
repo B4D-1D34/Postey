@@ -23,7 +23,10 @@ import {
   updateFailure,
 } from "../../redux/user/user.actions";
 import { selectCurrentPosts } from "../../redux/posts/posts.selectors";
-import { postUpdateSuccess } from "../../redux/posts/posts.actions";
+import {
+  commentUpdate,
+  postUpdateSuccess,
+} from "../../redux/posts/posts.actions";
 
 const RatingBox = ({ postId, commentId }) => {
   const dispatch = useDispatch();
@@ -71,17 +74,11 @@ const RatingBox = ({ postId, commentId }) => {
           rating: rating + postRating,
         });
         dispatch(
-          postUpdateSuccess({
-            id: postId,
+          commentUpdate({
             data: {
-              ...posts[postId],
-              comments: {
-                ...posts[postId].comments,
-                [commentId]: {
-                  ...posts[postId].comments[commentId],
-                  rating: rating + postRating,
-                },
-              },
+              postId,
+              commentId,
+              value: { rating: rating + postRating },
             },
           })
         );

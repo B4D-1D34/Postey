@@ -14,7 +14,6 @@ const PostPage = () => {
   const { postId } = useParams();
   const posts = useSelector(selectCurrentPosts);
   const currentUser = useSelector(selectCurrentUser);
-
   return (
     <>
       {posts ? (
@@ -32,11 +31,13 @@ const PostPage = () => {
               />
               <RatingBox postId={postId} />
             </div>
-            <CommentSection
-              comments={posts[postId].comments}
-              postAuthor={posts[postId].author}
-              postId={postId}
-            />
+            {Object.keys(posts[postId]?.comments)?.length ? (
+              <CommentSection
+                comments={posts[postId].comments}
+                postAuthor={posts[postId].author}
+                postId={postId}
+              />
+            ) : null}
           </div>
         ) : (
           <PostNotFound />

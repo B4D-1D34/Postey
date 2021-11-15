@@ -146,6 +146,7 @@ export const createNewPost = async ({
 }) => {
   const postsRef = collection(firestore, `posts`);
   const createdAt = new Date();
+  const comments = {};
   const docRef = await addDoc(postsRef, {
     theme,
     content,
@@ -156,7 +157,7 @@ export const createNewPost = async ({
   });
   const docSnapshot = await getDoc(docRef);
 
-  return { id: docSnapshot.id, data: { ...docSnapshot.data() } };
+  return { id: docSnapshot.id, data: { ...docSnapshot.data(), comments } };
 };
 
 export const deletePost = async (postId) => {

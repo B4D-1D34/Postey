@@ -12,17 +12,16 @@ const CommentSection = ({ comments, postAuthor, postId }) => {
       <h1>Comments</h1>
       {Object.keys(comments)
         .map((key) => ({ id: key, ...comments[key] }))
-        .map(({ id, author, content, rating, createdAt, replyReference }) => (
+        .map(({ id, author, content, createdAt, replyReference }) => (
           <Comment
             key={id}
             id={id}
             author={author}
             content={content}
-            rating={rating}
             replyReference={replyReference}
             time={modifyTime(createdAt)}
-            owner={currentUser.id === author}
-            postAuthor={currentUser.id === postAuthor}
+            owner={currentUser?.id === author}
+            postAuthor={currentUser?.id === postAuthor}
             postId={postId}
           />
         ))}

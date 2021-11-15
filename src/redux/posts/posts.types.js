@@ -5,6 +5,7 @@ const PostsActionTypes = {
   POST_UPDATE_FAILURE: "POST_UPDATE_FAILURE",
   POST_DELETE: "POST_DELETE",
   COMMENT_DELETE: "COMMENT_DELETE",
+  COMMENT_UPDATE: "COMMENT_UPDATE",
 };
 
 export default PostsActionTypes;

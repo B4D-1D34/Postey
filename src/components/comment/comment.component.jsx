@@ -11,7 +11,6 @@ const Comment = ({
   author,
   content,
   time,
-  rating,
   replyReference,
   owner,
   postAuthor,
@@ -32,6 +31,7 @@ const Comment = ({
     }
   }, [author, content]);
 
+  //   console.log(postId);
   return (
     <div className={styles.comment}>
       <div className={styles.postsHead}>
@@ -44,9 +44,13 @@ const Comment = ({
         {owner ? (
           <div className={styles.manageBtns}>
             {!isEditTimePassed ? (
-              <EditPostButton id={id} initialContent={content} />
+              <EditPostButton
+                commentId={id}
+                postId={postId}
+                initialContent={content}
+              />
             ) : null}
-            <DeletePostButton id={id} />{" "}
+            <DeletePostButton postId={postId} commentId={id} />{" "}
           </div>
         ) : postAuthor ? (
           <div className={styles.manageBtns}>

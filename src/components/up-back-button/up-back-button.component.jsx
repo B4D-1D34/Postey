@@ -16,7 +16,7 @@ const UpBackButton = () => {
       arrow.current.classList.remove(styles.back);
       setIsBack(false);
     } else {
-      upBackBtn.current.classList.remove(styles.reveal);
+      upBackBtn?.current.classList.remove(styles.reveal);
       arrow.current.classList.add(styles.back);
       setIsBack(true);
     }
@@ -30,6 +30,7 @@ const UpBackButton = () => {
     }
   };
   useEffect(() => {
+    console.log("useeffect");
     window.onscroll = goUpAvailable;
   }, []);
   useEffect(() => {
