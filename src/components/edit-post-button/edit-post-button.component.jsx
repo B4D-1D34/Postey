@@ -38,13 +38,8 @@ const EditPostButton = ({
   };
 
   const handleChange = ({ target }) => {
-    // if (target.type !== "checkbox") {
     const { name, value } = target;
     setPost({ ...post, [name]: value });
-    // } else if (target.type === "checkbox") {
-    //   const { name, checked } = target;
-    //   setPost({ ...post, [name]: checked });
-    // }
   };
 
   const handleEdit = (e) => {
@@ -54,16 +49,13 @@ const EditPostButton = ({
       return;
     }
     if (commentId) {
-      try {
-        changeDbCommentField(postId, commentId, { content });
-        dispatch(
-          commentUpdate({ data: { postId, commentId, value: { content } } })
-        );
-        dispatch(updateSuccess({ message: "Updated!" }));
-        toggleIsEditing();
-      } catch ({ message }) {
-        dispatch(updateFailure({ message }));
-      }
+      changeDbCommentField(postId, commentId, { content })
+        .then((comment) => {
+          dispatch(commentUpdate({ data: { postId, commentId, comment } }));
+          dispatch(updateSuccess({ message: "Updated!" }));
+          toggleIsEditing();
+        })
+        .catch(({ message }) => dispatch(updateFailure({ message })));
     } else {
       updatePost(postId, { theme, content })
         .then((doc) => {

@@ -109,10 +109,12 @@ export const changeDbPostField = (postId, field) => {
   updateDoc(postRef, fieldName, field[fieldName]);
 };
 
-export const changeDbCommentField = (postId, commentId, field) => {
+export const changeDbCommentField = async (postId, commentId, field) => {
   const commentRef = doc(firestore, `posts/${postId}/comments/${commentId}`);
   const fieldName = Object.keys(field)[0];
-  updateDoc(commentRef, fieldName, field[fieldName]);
+  await updateDoc(commentRef, fieldName, field[fieldName]);
+  const commentSnapshot = await getDoc(commentRef);
+  return { id: commentSnapshot.id, data: { ...commentSnapshot.data() } };
 };
 
 export const getDbPosts = async () => {
@@ -160,6 +162,26 @@ export const createNewPost = async ({
   return { id: docSnapshot.id, data: { ...docSnapshot.data(), comments } };
 };
 
+export const createNewComment = async ({
+  content,
+  author,
+  replyReference,
+  postId,
+}) => {
+  const commentsRef = collection(firestore, `posts/${postId}/comments`);
+  const createdAt = new Date();
+  const commentRef = await addDoc(commentsRef, {
+    content,
+    author,
+    replyReference,
+    createdAt,
+    rating: 0,
+  });
+  const commentSnapshot = await getDoc(commentRef);
+
+  return { id: commentSnapshot.id, data: { ...commentSnapshot.data() } };
+};
+
 export const deletePost = async (postId) => {
   const docRef = doc(firestore, `posts/${postId}`);
   return await deleteDoc(docRef);
@@ -173,6 +195,15 @@ export const deleteComment = async (postId, commentId) => {
 export const updatePost = async (postId, { content, theme }) => {
   const docRef = doc(firestore, `posts/${postId}`);
   await updateDoc(docRef, { content: content, theme: theme });
+  const commentsRef = collection(firestore, `posts/${postId}/comments`);
+  const commentsSnapshot = await getDocs(commentsRef);
+  let comments = {};
+  for (const comment of commentsSnapshot.docs) {
+    comments = { ...comments, [comment.id]: { ...comment.data() } };
+  }
   const docSnapshot = await getDoc(docRef);
-  return { id: docSnapshot.id, data: { ...docSnapshot.data() } };
+  return {
+    id: docSnapshot.id,
+    data: { ...docSnapshot.data(), comments: { ...comments } },
+  };
 };

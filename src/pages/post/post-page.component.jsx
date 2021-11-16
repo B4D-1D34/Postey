@@ -31,13 +31,13 @@ const PostPage = () => {
               />
               <RatingBox postId={postId} />
             </div>
-            {Object.keys(posts[postId]?.comments)?.length ? (
-              <CommentSection
-                comments={posts[postId].comments}
-                postAuthor={posts[postId].author}
-                postId={postId}
-              />
-            ) : null}
+            <CommentSection
+              comments={posts[postId].comments}
+              postAuthor={posts[postId].author}
+              postId={postId}
+              closeComments={posts[postId].closeComments}
+              currentUser={currentUser}
+            />
           </div>
         ) : (
           <PostNotFound />

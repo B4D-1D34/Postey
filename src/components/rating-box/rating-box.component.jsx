@@ -72,22 +72,23 @@ const RatingBox = ({ postId, commentId }) => {
         });
         changeDbCommentField(postId, commentId, {
           rating: rating + postRating,
+        }).then((comment) => {
+          dispatch(
+            commentUpdate({
+              data: {
+                postId,
+                commentId,
+                comment,
+              },
+            })
+          );
+          dispatch(
+            currentUserUpdate({
+              ...currentUser,
+              rates: { ...currentUser.rates, [commentId]: currentRate },
+            })
+          );
         });
-        dispatch(
-          commentUpdate({
-            data: {
-              postId,
-              commentId,
-              value: { rating: rating + postRating },
-            },
-          })
-        );
-        dispatch(
-          currentUserUpdate({
-            ...currentUser,
-            rates: { ...currentUser.rates, [commentId]: currentRate },
-          })
-        );
       } else {
         changeDbUserField(userAuth, {
           rates: { ...currentUser?.rates, [postId]: currentRate },

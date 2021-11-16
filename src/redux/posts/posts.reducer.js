@@ -37,7 +37,6 @@ const postsReducer = (state = INITIAL_STATE, action) => {
       };
     case PostsActionTypes.COMMENT_UPDATE:
       const { data } = action.payload;
-      const fieldName = Object.keys(data.value)[0];
       return {
         ...state,
         posts: {
@@ -47,8 +46,7 @@ const postsReducer = (state = INITIAL_STATE, action) => {
             comments: {
               ...posts[data.postId].comments,
               [data.commentId]: {
-                ...posts[data.postId].comments[data.commentId],
-                [fieldName]: data.value[fieldName],
+                ...data.comment.data,
               },
             },
           },

@@ -51,7 +51,7 @@ const PostDataBlock = ({
           <div className={styles.manageBtns}>
             {!isEditTimePassed ? (
               <EditPostButton
-                id={id}
+                postId={id}
                 initialContent={content}
                 initialTheme={theme}
               />

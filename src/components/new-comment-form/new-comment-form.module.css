@@ -1,7 +1,7 @@
 .newPostForm {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 10px;
-  width: 500px;
+  width: 100%;
   margin: 0 auto;
   margin-bottom: 20px;
   padding: 15px;
@@ -33,20 +33,6 @@
   margin-right: 10px;
 }
 
-.theme {
-  width: 100%;
-  font-size: 32px;
-  font-weight: 700;
-  font-family: inherit;
-  border: none;
-  border-radius: 7px;
-  text-align: center;
-}
-
-.theme:focus {
-  outline: rgba(255, 140, 0, 0.411) solid 1px;
-}
-
 .submitGroup {
   display: flex;
   align-items: center;
@@ -69,24 +55,19 @@
   cursor: pointer;
 }
 
-.styledCheckbox {
-  width: 11px;
-  height: 11px;
-  border-radius: 2px;
+.reply {
   margin-left: 10px;
-  padding: 2px;
-  outline: rgb(238, 127, 37) solid 1px;
-  outline-offset: 2px;
+  color: rgb(179, 179, 179);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
 }
 
-.closeComments {
-  position: absolute;
-  opacity: 0;
-  right: -3px;
-  width: 17px;
-  height: 17px;
+.icon {
+  font-size: 14px;
+  margin-left: 10px;
 }
 
-.closeComments:checked ~ .styledCheckbox {
-  background: rgb(238, 127, 37);
+.icon:hover {
+  cursor: pointer;
 }
