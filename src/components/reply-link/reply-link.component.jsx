@@ -7,8 +7,8 @@ import styles from "./reply-link.module.css";
 const ReplyLink = ({ replyReference, postId, commentSectionRef }) => {
   const posts = useSelector(selectCurrentPosts);
   const receiverName = useRef();
+  const timer = useRef();
 
-  console.log({ ...commentSectionRef.current });
   useEffect(() => {
     if (replyReference) {
       getAuthorName(posts[postId]?.comments[replyReference]?.author).then(
@@ -18,8 +18,23 @@ const ReplyLink = ({ replyReference, postId, commentSectionRef }) => {
       );
     }
   }, [replyReference]);
+
+  const showReplyReference = () => {
+    if (timer.current) {
+      clearTimeout(timer.current);
+    }
+    const replyRefElement = Array(...commentSectionRef.current.children).filter(
+      (el) => el.getAttribute("forreplylink") === replyReference
+    )[0];
+    replyRefElement.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    replyRefElement.classList.add(styles.showing);
+    timer.current = setTimeout(() => {
+      replyRefElement.classList.remove(styles.showing);
+    }, 1500);
+  };
+
   return (
-    <div className={styles.reply}>
+    <div className={styles.reply} onClick={showReplyReference}>
       <h5 ref={receiverName}></h5>
     </div>
   );

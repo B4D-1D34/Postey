@@ -6,10 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import {
-  selectCurrentUser,
-  selectUserAuth,
-} from "../../redux/user/user.selectors";
+import { selectCurrentUser } from "../../redux/user/user.selectors";
 import {
   changeDbCommentField,
   changeDbPostField,
@@ -31,7 +28,6 @@ import {
 const RatingBox = ({ postId, commentId }) => {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
-  const userAuth = useSelector(selectUserAuth);
   const posts = useSelector(selectCurrentPosts);
   let { rating } = posts[postId];
   let userRate = currentUser?.rates[postId];
@@ -40,7 +36,7 @@ const RatingBox = ({ postId, commentId }) => {
     userRate = currentUser?.rates[commentId];
   }
   const handleRate = ({ target }) => {
-    if (!userAuth) {
+    if (!currentUser) {
       dispatch(updateFailure({ message: "You should be signed in!" }));
       return;
     }
@@ -67,7 +63,7 @@ const RatingBox = ({ postId, commentId }) => {
 
     try {
       if (commentId) {
-        changeDbUserField(userAuth, {
+        changeDbUserField(currentUser.id, {
           rates: { ...currentUser?.rates, [commentId]: currentRate },
         });
         changeDbCommentField(postId, commentId, {
@@ -90,7 +86,7 @@ const RatingBox = ({ postId, commentId }) => {
           );
         });
       } else {
-        changeDbUserField(userAuth, {
+        changeDbUserField(currentUser.id, {
           rates: { ...currentUser?.rates, [postId]: currentRate },
         });
         changeDbPostField(postId, { rating: rating + postRating });

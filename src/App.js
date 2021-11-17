@@ -7,6 +7,7 @@ import {
   auth,
   createUserProfileDocument,
   getDbPosts,
+  updateUserRates,
 } from "./firebase/firebase.utils";
 import HomePage from "./pages/homepage/homepage.component";
 import PostPage from "./pages/post/post-page.component";
@@ -28,26 +29,29 @@ function App() {
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
   useEffect(() => {
-    getDbPosts()
-      .then((posts) => dispatch(fetchPostsSuccess(posts)))
-      .catch((err) => dispatch(fetchPostsFailure(err)));
-
     const unsubscribe = auth.onAuthStateChanged(async (userAuth) => {
       console.log(`userAuth`, userAuth);
-      if (userAuth) {
-        try {
-          const userRef = await createUserProfileDocument(userAuth);
-          const userSnapshot = await getDoc(userRef);
-          const currentUser = { id: userSnapshot.id, ...userSnapshot.data() };
-          console.log(currentUser);
-          dispatch(signInSuccess({ currentUser, userAuth }));
-        } catch (err) {
-          dispatch(
-            updateFailure({
-              message: "Something is wrong, check your internet connection",
-            })
-          );
+      try {
+        const posts = await getDbPosts();
+        dispatch(fetchPostsSuccess(posts));
+
+        if (userAuth) {
+          try {
+            const userRef = await createUserProfileDocument(userAuth);
+            const userSnapshot = await getDoc(userRef);
+            const currentUser = { id: userSnapshot.id, ...userSnapshot.data() };
+            dispatch(signInSuccess({ currentUser, userAuth }));
+            updateUserRates(posts, currentUser);
+          } catch (err) {
+            dispatch(
+              updateFailure({
+                message: "Something is wrong, check your internet connection",
+              })
+            );
+          }
         }
+      } catch (err) {
+        dispatch(fetchPostsFailure(err));
       }
     });
 

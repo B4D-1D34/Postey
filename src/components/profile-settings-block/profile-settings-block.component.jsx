@@ -42,7 +42,7 @@ const ProfileSettingsBlock = () => {
   const handleDisplayNameUpdate = (e) => {
     e.preventDefault();
     try {
-      changeDbUserField(userAuth, { displayName });
+      changeDbUserField(currentUser.id, { displayName });
       dispatch(currentUserUpdate({ ...currentUser, displayName }));
       dispatch(
         updateSuccess({ message: `Your display name has been updated!` })

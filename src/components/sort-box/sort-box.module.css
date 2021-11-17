@@ -1,0 +1,55 @@
+.sortBox {
+  position: absolute;
+  left: 100%;
+  padding: 15px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 10px;
+  width: max-content;
+}
+
+.titleAndDirection {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.title {
+  margin-right: 10px;
+}
+
+.sortDirectionBtn {
+  padding: 5px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 26px;
+}
+
+.sortDirectionBtn:hover {
+  cursor: pointer;
+  background: rgb(228, 228, 228);
+}
+
+.selected {
+  background: rgb(255, 193, 111) !important;
+}
+
+.selected .icon {
+  color: white;
+}
+
+.icon {
+  color: rgb(179, 179, 179);
+  pointer-events: none;
+}
+
+.sortBoxItem {
+  padding: 3px 10px;
+  border-radius: 5px;
+}
+
+.sortBoxItem:hover {
+  cursor: pointer;
+  background: rgb(238, 238, 238);
+}

@@ -30,7 +30,6 @@ const UpBackButton = () => {
     }
   };
   useEffect(() => {
-    console.log("useeffect");
     window.onscroll = goUpAvailable;
   }, []);
   useEffect(() => {

@@ -97,10 +97,28 @@ export const signInWithEmailAndPass = (email, password) =>
 export const createUserWithEmailAndPass = (email, password) =>
   createUserWithEmailAndPassword(auth, email, password);
 
-export const changeDbUserField = (userAuth, field) => {
-  const userRef = doc(firestore, `users/${userAuth.uid}`);
+export const changeDbUserField = (userId, field) => {
+  const userRef = doc(firestore, `users/${userId}`);
   const fieldName = Object.keys(field)[0];
   updateDoc(userRef, fieldName, field[fieldName]);
+};
+
+export const updateUserRates = (posts, currentUser) => {
+  const allComments = Object.keys(posts).reduce(
+    (acc, key) => ({
+      ...acc,
+      ...posts[key].comments,
+    }),
+    []
+  );
+  const allRecords = Object.keys(posts).concat(Object.keys(allComments));
+  const filteredRecords = Object.keys(currentUser.rates)
+    .filter((key) => allRecords.includes(key))
+    .reduce(
+      (acc, key) => (acc = { ...acc, [key]: currentUser.rates[key] }),
+      {}
+    );
+  changeDbUserField(currentUser.id, { rates: filteredRecords });
 };
 
 export const changeDbPostField = (postId, field) => {

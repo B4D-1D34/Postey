@@ -51,7 +51,7 @@ const Comment = ({
     setReplyReference(id);
   };
   return (
-    <div className={styles.comment}>
+    <div className={styles.comment} forreplylink={id}>
       <div className={styles.postsHead}>
         <div className={styles.authorAndTime}>
           <h4 className={styles.author} ref={authorName}>
