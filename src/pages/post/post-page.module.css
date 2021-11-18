@@ -1,8 +1,12 @@
 .contentblock {
-  margin: 40px auto;
+  margin: 40px auto 40px auto;
   width: 500px;
   padding: 15px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 10px;
   height: max-content;
 }
+
+/* .postPage {
+  padding: 15px;
+} */

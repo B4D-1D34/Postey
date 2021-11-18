@@ -1,10 +1,12 @@
 .sortBox {
   position: absolute;
   left: 100%;
+  top: 0;
   padding: 15px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 10px;
   width: max-content;
+  margin-bottom: 20px;
 }
 
 .titleAndDirection {
@@ -47,9 +49,34 @@
 .sortBoxItem {
   padding: 3px 10px;
   border-radius: 5px;
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
 }
 
 .sortBoxItem:hover {
   cursor: pointer;
   background: rgb(238, 238, 238);
+}
+
+@media screen and (max-width: 900px) {
+  .sortBox {
+    position: relative;
+    left: auto;
+    top: auto;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin: 0 auto;
+    margin-bottom: 20px;
+  }
+  .titleAndDirection {
+    margin-bottom: auto;
+  }
+  .optionsWrapper {
+    display: flex;
+  }
+  .optionsWrapper :not(:last-child) {
+    margin-right: 5px;
+  }
 }

@@ -18,7 +18,7 @@ const PostPage = () => {
     <>
       {posts ? (
         posts[postId] ? (
-          <div>
+          <div className={styles.postPage}>
             <div className={styles.contentblock}>
               <PostDataBlock
                 theme={posts[postId].theme}

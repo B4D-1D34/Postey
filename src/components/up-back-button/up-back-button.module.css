@@ -1,5 +1,4 @@
 .upBackBtnBlock {
-  /* background: red; */
   position: relative;
   z-index: 2;
   width: 100%;
@@ -8,9 +7,9 @@
 .upBackBtn {
   background: white;
   position: absolute;
-  width: 50%;
+  max-width: 100%;
+  width: 200px;
   height: 100%;
-  /* transition: all 0.3s; */
 }
 
 .noBackBtn {
@@ -46,4 +45,12 @@
 
 .back {
   transform: rotate(-90deg);
+}
+
+@media screen and (max-width: 700px) {
+  .upBackBtnBlock {
+    position: fixed;
+    /* z-index: 2; */
+    /* width: 100%; */
+  }
 }

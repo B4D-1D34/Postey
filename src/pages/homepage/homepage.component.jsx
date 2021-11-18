@@ -17,19 +17,21 @@ const HomePage = () => {
   const currentUser = useSelector(selectCurrentUser);
   const [sort, setSort] = useState("time");
   const [sortDirection, setSortDirection] = useState("decr");
+  const sortOptions = ["time", "comments", "rating"];
 
   return (
     <div className={styles.homepage}>
+      {currentUser && posts ? <NewPostForm /> : null}
       {posts ? (
         <SortBox
           sort={sort}
           setSort={setSort}
           sortDirection={sortDirection}
           setSortDirection={setSortDirection}
+          sortOptions={sortOptions}
         />
       ) : null}
       <div className={styles.mainContentContainer}>
-        {currentUser && posts ? <NewPostForm /> : null}
         {posts ? (
           Object.keys(posts)
             .map((key) => ({ ...posts[key], key }))

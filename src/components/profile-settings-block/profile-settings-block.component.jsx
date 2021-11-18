@@ -88,7 +88,7 @@ const ProfileSettingsBlock = () => {
       .catch(({ message }) => dispatch(updateFailure({ message })));
   };
   return (
-    <div className={styles.settingsblock}>
+    <div className={styles.settingsBlock}>
       <h1>Account Settings</h1>
       <form
         className={styles.inputContainer}

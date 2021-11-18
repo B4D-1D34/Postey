@@ -26,8 +26,13 @@ export const postsSort = (a, b, sort, sortDirection) => {
   }
 };
 
-const SortBox = ({ sort, setSort, sortDirection, setSortDirection }) => {
-  const sortOptions = ["time", "comments", "rating"];
+const SortBox = ({
+  sort,
+  setSort,
+  sortDirection,
+  setSortDirection,
+  sortOptions,
+}) => {
   const sortDirectionOptions = [
     { name: "incr", icon: faArrowUp },
     { name: "decr", icon: faArrowDown },
@@ -59,19 +64,21 @@ const SortBox = ({ sort, setSort, sortDirection, setSortDirection }) => {
           </div>
         ))}
       </div>
-      {sortOptions.map((option) => (
-        <div
-          className={styles.sortBoxItem}
-          name={option}
-          key={option}
-          onClick={handleSort}
-          style={{
-            background: `${sort === option ? "rgb(255, 193, 111)" : ""}`,
-          }}
-        >
-          {option[0].toUpperCase().concat(option.slice(1))}
-        </div>
-      ))}
+      <div className={styles.optionsWrapper}>
+        {sortOptions.map((option) => (
+          <div
+            className={styles.sortBoxItem}
+            name={option}
+            key={option}
+            onClick={handleSort}
+            style={{
+              background: `${sort === option ? "rgb(255, 193, 111)" : ""}`,
+            }}
+          >
+            {option[0].toUpperCase().concat(option.slice(1))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

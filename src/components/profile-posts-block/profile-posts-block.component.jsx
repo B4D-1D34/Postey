@@ -5,8 +5,13 @@ import { selectCurrentPosts } from "../../redux/posts/posts.selectors";
 import styles from "./profile-posts-block.module.css";
 import { useState } from "react";
 import ProfileSidebar from "../profile-sidebar/profile-sidebar.component";
+import SortBox, { postsSort } from "../sort-box/sort-box.component";
 
 const ProfilePostsBlock = () => {
+  const [sort, setSort] = useState("time");
+  const [sortDirection, setSortDirection] = useState("decr");
+  const sortOptions = ["time", "comments", "rating"];
+
   const currentUser = useSelector(selectCurrentUser);
   const posts = useSelector(selectCurrentPosts);
   const sections = ["your posts", "rated"];
@@ -38,76 +43,109 @@ const ProfilePostsBlock = () => {
     (key) => currentUser?.rates[key]
   ).length;
   return (
-    <div className={styles.postsblock}>
-      <div className={styles.header}>
-        <div className={styles.stats}>
-          <h3>Total rating: {totalRating}</h3>
-          <h3>Rates made: {ratesCount}</h3>
-          <h3>Posts written: {userPosts.length}</h3>
-          <h3>Comments written: {userComments.length}</h3>
+    <div className={styles.postsBlockWrapper}>
+      <SortBox
+        sort={sort}
+        setSort={setSort}
+        sortDirection={sortDirection}
+        setSortDirection={setSortDirection}
+        sortOptions={sortOptions}
+      />
+      <div className={styles.postsBlock}>
+        <div className={styles.header}>
+          <div className={styles.stats}>
+            <h3>Total rating: {totalRating}</h3>
+            <h3>Rates made: {ratesCount}</h3>
+            <h3>Posts written: {userPosts.length}</h3>
+            <h3>Comments written: {userComments.length}</h3>
+          </div>
+          <ProfileSidebar
+            sections={sections}
+            blockShown={blockShown}
+            setBlockShown={setBlockShown}
+          />
         </div>
-        <ProfileSidebar
-          sections={sections}
-          blockShown={blockShown}
-          setBlockShown={setBlockShown}
-        />
+        {blockShown === "your posts" ? (
+          <>
+            <h1 className={styles.title}>Your Posts</h1>
+            {userPosts.length ? (
+              userPosts
+                .sort((a, b) => postsSort(a, b, sort, sortDirection))
+                .map(
+                  ({
+                    id,
+                    author,
+                    theme,
+                    createdAt,
+                    rating,
+                    content,
+                    comments,
+                  }) => (
+                    <PostItem
+                      key={id}
+                      id={id}
+                      author={author}
+                      theme={theme}
+                      createdAt={
+                        createdAt?.nanoseconds
+                          ? createdAt?.seconds * 1000 +
+                            createdAt?.nanoseconds / 1000000
+                          : createdAt?.seconds * 1000
+                      }
+                      rating={rating}
+                      content={content}
+                      commentsLength={
+                        comments ? Object.keys(comments).length : 0
+                      }
+                    />
+                  )
+                )
+            ) : (
+              <h2>You have no posts written</h2>
+            )}
+          </>
+        ) : null}
+        {blockShown === "rated" ? (
+          <>
+            <h1 className={styles.title}>Rated Posts</h1>
+            {ratedPosts.length ? (
+              ratedPosts
+                .sort((a, b) => postsSort(a, b, sort, sortDirection))
+                .map(
+                  ({
+                    id,
+                    author,
+                    theme,
+                    createdAt,
+                    rating,
+                    content,
+                    comments,
+                  }) => (
+                    <PostItem
+                      key={id}
+                      id={id}
+                      author={author}
+                      theme={theme}
+                      createdAt={
+                        createdAt?.nanoseconds
+                          ? createdAt?.seconds * 1000 +
+                            createdAt?.nanoseconds / 1000000
+                          : createdAt?.seconds * 1000
+                      }
+                      rating={rating}
+                      content={content}
+                      commentsLength={
+                        comments ? Object.keys(comments).length : 0
+                      }
+                    />
+                  )
+                )
+            ) : (
+              <h2>You haven't rate any posts yet</h2>
+            )}
+          </>
+        ) : null}
       </div>
-      {blockShown === "your posts" ? (
-        <>
-          <h1 className={styles.title}>Your Posts</h1>
-          {userPosts.length ? (
-            userPosts.map(
-              ({ id, author, theme, createdAt, rating, content, comments }) => (
-                <PostItem
-                  key={id}
-                  id={id}
-                  author={author}
-                  theme={theme}
-                  createdAt={
-                    createdAt?.nanoseconds
-                      ? createdAt?.seconds * 1000 +
-                        createdAt?.nanoseconds / 1000000
-                      : createdAt?.seconds * 1000
-                  }
-                  rating={rating}
-                  content={content}
-                  commentsLength={comments ? Object.keys(comments).length : 0}
-                />
-              )
-            )
-          ) : (
-            <h2>You have no posts written</h2>
-          )}
-        </>
-      ) : null}
-      {blockShown === "rated" ? (
-        <>
-          <h1 className={styles.title}>Rated Posts</h1>
-          {ratedPosts.length ? (
-            ratedPosts.map(
-              ({ id, author, theme, createdAt, rating, content, comments }) => (
-                <PostItem
-                  key={id}
-                  id={id}
-                  author={author}
-                  theme={theme}
-                  createdAt={
-                    createdAt?.nanoseconds
-                      ? createdAt?.seconds * 1000 +
-                        createdAt?.nanoseconds / 1000000
-                      : createdAt?.seconds * 1000
-                  }
-                  rating={rating}
-                  content={content}
-                  commentsLength={comments ? Object.keys(comments).length : 0}
-                />
-              )
-            )
-          ) : (
-            <h2>You haven't rate any posts yet</h2>
-          )}
-        </>
-      ) : null}
     </div>
   );
 };
