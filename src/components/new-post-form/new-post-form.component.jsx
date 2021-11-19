@@ -70,16 +70,18 @@ const NewPostForm = () => {
           <button className={styles.submitBtn} type="submit">
             Publish
           </button>
-          <p>Close comments?</p>
-          <input
-            className={styles.closeComments}
-            type="checkbox"
-            id="closeComments"
-            name="closeComments"
-            onChange={handleChange}
-            checked={closeComments}
-          />
-          <label htmlFor="closeComments" className={styles.styledCheckbox} />
+          <div className={styles.closeCommentsWrapper}>
+            <p>Close comments?</p>
+            <input
+              className={styles.closeComments}
+              type="checkbox"
+              id="closeComments"
+              name="closeComments"
+              onChange={handleChange}
+              checked={closeComments}
+            />
+            <label htmlFor="closeComments" className={styles.styledCheckbox} />
+          </div>
         </div>
       </div>
     </form>

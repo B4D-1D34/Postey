@@ -1,7 +1,8 @@
 .newPostForm {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 10px;
-  width: 500px;
+  max-width: 500px;
+  width: 100%;
   margin: 0 auto;
   margin-bottom: 20px;
   padding: 15px;
@@ -79,6 +80,11 @@
   outline-offset: 2px;
 }
 
+.closeCommentsWrapper {
+  display: flex;
+  align-items: center;
+}
+
 .closeComments {
   position: absolute;
   opacity: 0;
@@ -89,4 +95,18 @@
 
 .closeComments:checked ~ .styledCheckbox {
   background: rgb(238, 127, 37);
+}
+
+@media screen and (max-width: 315px) {
+  .submitGroup {
+    flex-direction: column-reverse;
+  }
+  .submitBtn {
+    margin-right: 0;
+    margin-top: 10px;
+    align-self: flex-start;
+  }
+  .theme {
+    font-size: 27px;
+  }
 }

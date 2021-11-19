@@ -1,3 +1,5 @@
 .link {
   cursor: pointer;
+  /* display: flex; */
+  /* overflow: hidden; */
 }

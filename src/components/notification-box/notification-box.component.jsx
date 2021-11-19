@@ -35,7 +35,7 @@ const NotificationBox = () => {
   return (
     <div
       className={styles.notificationBox}
-      style={{ visibility: `${!notification?.message ? "hidden" : "inherit"}` }}
+      style={{ visibility: `${!notification?.message ? "hidden" : ""}` }}
       ref={boxRef}
     >
       <p className={styles.notification}>

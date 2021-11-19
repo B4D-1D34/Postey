@@ -1,11 +1,14 @@
 .homepage {
   padding: 20px;
   padding-top: 0;
+  margin: 0 auto;
   margin-top: 20px;
+  max-width: 500px;
+  width: 100%;
   position: relative;
 }
 
 .mainContentContainer {
   margin: 0 auto;
-  width: 500px;
+  /* width: 100%; */
 }

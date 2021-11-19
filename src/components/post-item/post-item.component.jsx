@@ -59,7 +59,9 @@ const PostItem = ({
             </h4>
             <h5 className={styles.time}>{countTime(createdAt)}</h5>
           </div>
-          <h1 className={styles.theme}>{theme}</h1>
+          <h1>
+            <span className={styles.theme}>{theme}</span>
+          </h1>
         </CustomLink>
         <div ref={contentWrapper} className={styles.contentWrapper}>
           <p ref={contentBlock} className={styles.content}>

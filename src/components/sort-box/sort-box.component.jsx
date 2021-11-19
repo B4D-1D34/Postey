@@ -51,18 +51,20 @@ const SortBox = ({
     <div className={styles.sortBox}>
       <div className={styles.titleAndDirection}>
         <h4 className={styles.title}>Sort by</h4>
-        {sortDirectionOptions.map((option) => (
-          <div
-            className={`${styles.sortDirectionBtn} ${
-              sortDirection === option.name ? styles.selected : null
-            }`}
-            name={option.name}
-            key={option.name}
-            onClick={handleSortDirection}
-          >
-            <FontAwesomeIcon icon={option.icon} className={styles.icon} />
-          </div>
-        ))}
+        <div className={styles.arrowsWrapper}>
+          {sortDirectionOptions.map((option) => (
+            <div
+              className={`${styles.sortDirectionBtn} ${
+                sortDirection === option.name ? styles.selected : null
+              }`}
+              name={option.name}
+              key={option.name}
+              onClick={handleSortDirection}
+            >
+              <FontAwesomeIcon icon={option.icon} className={styles.icon} />
+            </div>
+          ))}
+        </div>
       </div>
       <div className={styles.optionsWrapper}>
         {sortOptions.map((option) => (
