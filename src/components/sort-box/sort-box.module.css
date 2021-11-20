@@ -63,7 +63,7 @@
   background: rgb(238, 238, 238);
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 950px) {
   .sortBox {
     position: relative;
     left: auto;

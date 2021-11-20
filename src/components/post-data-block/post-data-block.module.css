@@ -26,8 +26,25 @@
 
 .theme {
   margin-bottom: 10px;
+  word-break: break-word;
 }
 
 .content {
   word-break: break-word;
+}
+
+@media screen and (max-width: 400px) {
+  .postsHead {
+    border-bottom: 1px solid rgb(230, 230, 230);
+    padding-bottom: 10px;
+  }
+  .manageBtns {
+    display: block;
+  }
+  .authorAndTime {
+    display: block;
+  }
+  .time {
+    margin-left: 0;
+  }
 }

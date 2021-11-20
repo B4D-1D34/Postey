@@ -97,3 +97,22 @@
   color: rgb(179, 179, 179);
   font-size: 14px;
 }
+
+@media screen and (max-width: 480px) {
+  .authorAndTime {
+    display: block;
+  }
+  .time {
+    margin-left: 0;
+  }
+  .postsHead {
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgb(231, 231, 231);
+  }
+  .manageBtns {
+    display: block;
+  }
+  .replyBtn {
+    display: flex;
+  }
+}

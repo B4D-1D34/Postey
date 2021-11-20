@@ -1,6 +1,6 @@
 .postsBlockWrapper {
   position: relative;
-  padding-right: 30px;
+  padding-right: 20px;
 }
 
 .postsBlock {
@@ -16,4 +16,16 @@
 .header {
   display: flex;
   justify-content: space-between;
+}
+
+@media screen and (max-width: 950px) {
+  .postsBlockWrapper {
+    padding-right: 0;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .header {
+    display: block;
+  }
 }

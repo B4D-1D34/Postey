@@ -14,3 +14,9 @@
 .showing {
   background: rgb(255, 220, 174);
 }
+
+@media screen and (max-width: 480px) {
+  .reply {
+    margin-left: 0;
+  }
+}

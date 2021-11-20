@@ -13,11 +13,11 @@
 }
 
 .noBackBtn {
-  visibility: hidden;
+  display: none;
 }
 
 .reveal {
-  visibility: visible;
+  display: block;
 }
 
 .upBackBtn:hover {
@@ -51,19 +51,26 @@
   .upBackBtnBlock {
     position: sticky;
     top: 20px;
-    height: 50px;
-    padding: 0 20px;
-    z-index: 5;
   }
   .upBackBtn {
     position: relative;
     margin: 20px auto;
     border: 1px solid rgb(230, 230, 230);
     border-radius: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
+
+  .noBackBtn {
+    display: none;
+  }
+
+  .reveal {
+    display: flex;
+  }
+
   .upBackBtn:hover {
     background: rgb(230, 230, 230);
   }

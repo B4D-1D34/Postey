@@ -44,3 +44,10 @@
   visibility: visible;
   opacity: 1;
 }
+
+@media screen and (max-width: 400px) {
+  .hint {
+    left: auto;
+    right: 0;
+  }
+}

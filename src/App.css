@@ -5,11 +5,12 @@
 .page {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
 }
 @media screen and (max-width: 700px) {
   .page {
-    /* padding-top: 65px; */
+    position: relative;
     display: block;
   }
 }

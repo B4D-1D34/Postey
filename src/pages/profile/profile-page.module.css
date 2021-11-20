@@ -1,17 +1,54 @@
 .profilepage {
   display: flex;
-  padding: 10px;
+  padding: 0 10px;
   height: max-content;
 }
 
 .sidebarContainer {
-  margin: 40px 30px auto auto;
+  margin: 40px 20px auto auto;
+  width: max-content;
 }
 
 .contentblock {
   margin: 40px auto 0px 0px;
+  max-width: 500px;
   width: 500px;
-  /* padding: 15px; */
-  /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  border-radius: 10px; */
+}
+
+@media screen and (max-width: 850px) {
+  .profilepage {
+    display: block;
+  }
+  .sidebarContainer {
+    width: initial;
+    max-width: 245px;
+    margin-left: 0;
+  }
+  .contentblock {
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .sidebarContainer {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .sidebarContainer div {
+    flex-direction: row;
+  }
+  .sidebarContainer div div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .contentblock {
+    width: initial;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .sidebarContainer {
+    margin: 0;
+  }
 }
