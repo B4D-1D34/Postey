@@ -25,12 +25,19 @@
 
 .authorAndTheme {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.author {
+.author,
+.replyReceiver {
   color: rgb(224, 123, 0);
   margin-right: 10px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
 }
 
 .submitGroup {
@@ -55,8 +62,12 @@
   cursor: pointer;
 }
 
+.replyReceiver {
+  word-break: break-all;
+  color: rgb(179, 179, 179);
+}
+
 .reply {
-  margin-left: 10px;
   color: rgb(179, 179, 179);
   font-weight: 500;
   display: flex;

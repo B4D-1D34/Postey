@@ -22,12 +22,19 @@
 
 .author {
   color: rgb(224, 123, 0);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
 }
 
 .time {
   margin-left: 15px;
   color: rgb(139, 139, 139);
   font-weight: 500;
+  white-space: nowrap;
+  /* margin-right: 15px; */
 }
 
 .manageBtns {
@@ -100,7 +107,9 @@
 
 @media screen and (max-width: 480px) {
   .authorAndTime {
-    display: block;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
   }
   .time {
     margin-left: 0;
@@ -108,6 +117,7 @@
   .postsHead {
     padding-bottom: 10px;
     border-bottom: 1px solid rgb(231, 231, 231);
+    align-items: stretch;
   }
   .manageBtns {
     display: block;

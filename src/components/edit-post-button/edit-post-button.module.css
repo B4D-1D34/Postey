@@ -72,3 +72,21 @@
 .theme:focus {
   outline: rgba(255, 140, 0, 0.411) solid 1px;
 }
+
+@media screen and (max-width: 950px) {
+  .editConfirmation {
+    width: 65%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .editConfirmation {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .statsBtn {
+    display: flex;
+  }
+}

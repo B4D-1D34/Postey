@@ -21,12 +21,19 @@
 
 .author {
   color: rgb(224, 123, 0);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
 }
 
 .time {
   margin-left: 15px;
   color: rgb(139, 139, 139);
   font-weight: 500;
+  margin-right: 15px;
+  white-space: nowrap;
 }
 
 .theme {
@@ -113,5 +120,27 @@
 @media screen and (max-width: 450px) {
   .theme {
     font-size: 27px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .authorAndTime {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .time {
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .postItem {
+    display: block;
+  }
+  .stats {
+    flex-direction: row;
+    border-left: none;
+    padding: 0;
+    margin-top: 10px;
   }
 }

@@ -20,6 +20,7 @@ const Comment = ({
   postAuthor,
   postId,
   commentSectionRef,
+  closeComments,
 }) => {
   const authorName = useRef();
   const contentBlock = useRef();
@@ -49,6 +50,10 @@ const Comment = ({
 
   const handleReply = () => {
     setReplyReference(id);
+
+    commentSectionRef.current.scrollIntoView({ block: "end" });
+    //textarea in new comment input
+    commentSectionRef.current.children[1].children[1].children[1].focus();
   };
   return (
     <div className={styles.comment} forreplylink={id}>
@@ -67,9 +72,11 @@ const Comment = ({
           ) : null}
         </div>
         <div className={styles.manageBtns}>
-          <div className={styles.replyBtn} onClick={handleReply}>
-            <FontAwesomeIcon icon={faReply} className={styles.icon} />
-          </div>
+          {!closeComments ? (
+            <div className={styles.replyBtn} onClick={handleReply}>
+              <FontAwesomeIcon icon={faReply} className={styles.icon} />
+            </div>
+          ) : null}
           {owner ? (
             <>
               {!isEditTimePassed ? (

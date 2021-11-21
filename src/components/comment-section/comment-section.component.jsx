@@ -12,7 +12,7 @@ const CommentSection = ({
   currentUser,
 }) => {
   const [sort, setSort] = useState("time");
-  const [sortDirection, setSortDirection] = useState("decr");
+  const [sortDirection, setSortDirection] = useState("incr");
   const sortOptions = ["time", "rating"];
 
   const commentSection = useRef();
@@ -60,6 +60,7 @@ const CommentSection = ({
               postAuthor={currentUser?.id === postAuthor}
               postId={postId}
               setReplyReference={setReplyReference}
+              closeComments={closeComments || !currentUser}
               commentSectionRef={commentSection}
             />
           ))}

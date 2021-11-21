@@ -32,10 +32,15 @@
 .author {
   color: rgb(224, 123, 0);
   margin-right: 10px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
 }
 
 .theme {
-  width: 100%;
+  min-width: 140px;
   font-size: 32px;
   font-weight: 700;
   font-family: inherit;
@@ -108,5 +113,6 @@
   }
   .theme {
     font-size: 27px;
+    min-width: 120px;
   }
 }
