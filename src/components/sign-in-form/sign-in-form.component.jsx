@@ -19,7 +19,8 @@ const SignInForm = ({ setIsSignUpShown }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPass(email, password);
+      const user = await signInWithEmailAndPass(email, password);
+      localStorage.setItem("currentUser", JSON.stringify(user.user.uid));
     } catch (err) {
       dispatch(
         signInFailure({

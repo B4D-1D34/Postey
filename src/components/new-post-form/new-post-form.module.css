@@ -27,6 +27,7 @@
 .authorAndTheme {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .author {
@@ -37,6 +38,8 @@
   word-break: break-word;
   -webkit-line-clamp: 1;
   overflow: hidden;
+  min-width: 150px;
+  width: max-content;
 }
 
 .theme {
@@ -102,6 +105,12 @@
   background: rgb(238, 127, 37);
 }
 
+@media screen and (max-width: 400px) {
+  .author {
+    min-width: 80px;
+  }
+}
+
 @media screen and (max-width: 315px) {
   .submitGroup {
     flex-direction: column-reverse;
@@ -114,5 +123,11 @@
   .theme {
     font-size: 27px;
     min-width: 120px;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .author {
+    min-width: 60px;
   }
 }

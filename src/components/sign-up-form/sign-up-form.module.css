@@ -80,3 +80,25 @@
   background: rgb(238, 127, 37);
   border: 1px solid transparent;
 }
+
+@media screen and (max-width: 420px) {
+  .signUpForm {
+    width: 75%;
+  }
+  .signUpTitle {
+    margin-bottom: 30px;
+    font-size: 25px;
+  }
+  .inputContainer {
+    flex-direction: column;
+  }
+  .formInput {
+    margin-left: 0;
+  }
+  .closeSignUp {
+    font-size: 30px;
+  }
+  .signUpSubmit {
+    padding: 5px 25px;
+  }
+}

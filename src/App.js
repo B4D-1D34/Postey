@@ -42,6 +42,7 @@ function App() {
             const currentUser = { id: userSnapshot.id, ...userSnapshot.data() };
             dispatch(signInSuccess({ currentUser, userAuth }));
             updateUserRates(posts, currentUser);
+            localStorage.setItem("currentUser", JSON.stringify(currentUser));
           } catch (err) {
             dispatch(
               updateFailure({
@@ -70,7 +71,13 @@ function App() {
           <Route
             exact
             path="/profile"
-            render={() => (currentUser ? <ProfilePage /> : <Redirect to="/" />)}
+            render={() =>
+              JSON.parse(localStorage.getItem("currentUser")) ? (
+                <ProfilePage />
+              ) : (
+                <Redirect to="/" />
+              )
+            }
           />
           <Route path="/post/:postId" component={PostPage} />
           <Route path="*" component={PostNotFound} />

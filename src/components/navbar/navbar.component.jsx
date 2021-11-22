@@ -4,7 +4,7 @@ import {
 } from "../../firebase/firebase.utils";
 import styles from "./navbar.module.css";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
-import { signOutSuccess } from "../../redux/user/user.actions";
+import { signOutSuccess, updateFailure } from "../../redux/user/user.actions";
 import { useSelector, useDispatch } from "react-redux";
 import SignInForm from "../sign-in-form/sign-in-form.component";
 import { useState } from "react";
@@ -19,8 +19,17 @@ const Navbar = () => {
   const appSignOut = () => {
     firebaseSignOut();
     dispatch(signOutSuccess());
+    localStorage.setItem("currentUser", JSON.stringify(null));
   };
 
+  const appSignInWithGoogle = async () => {
+    try {
+      const user = await signInWithGoogle();
+      localStorage.setItem("currentUser", JSON.stringify(user.user.uid));
+    } catch ({ message }) {
+      dispatch(updateFailure({ message: "Sign in failed, try again" }));
+    }
+  };
   return (
     <div className={styles.navbar}>
       <CustomLink url="/">
@@ -30,12 +39,16 @@ const Navbar = () => {
         <SignUpForm setIsSignUpShown={setIsSignUpShown} />
       ) : null}
       <div className={styles.btnContainer}>
-        {currentUser ? (
+        {JSON.parse(localStorage.getItem("currentUser")) ? (
           <>
             <CustomLink url="/profile">
               <button className={styles.navbarBtn}>Profile</button>
             </CustomLink>
-            <button className={styles.navbarBtn} onClick={appSignOut}>
+            <button
+              className={styles.navbarBtn}
+              disabled={!currentUser}
+              onClick={appSignOut}
+            >
               Sign Out
             </button>
           </>
@@ -49,7 +62,7 @@ const Navbar = () => {
                 <SignInForm setIsSignUpShown={setIsSignUpShown} />
               </div>
             </>
-            <button className={styles.navbarBtn} onClick={signInWithGoogle}>
+            <button className={styles.navbarBtn} onClick={appSignInWithGoogle}>
               Sign In With Google
             </button>
           </>

@@ -24,6 +24,7 @@
   color: rgb(139, 139, 139);
   font-weight: 500;
   margin-right: 15px;
+  white-space: nowrap;
 }
 
 .manageBtns {

@@ -125,7 +125,7 @@ const SignUpForm = ({ setIsSignUpShown }) => {
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="passwordConfirmation" alt="passwordConfirmation">
-            pass confirm:
+            Confirm:
           </label>
           <input
             className={styles.formInput}
