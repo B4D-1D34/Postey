@@ -11,6 +11,7 @@
   align-items: center;
   visibility: hidden;
   z-index: 10;
+  margin-right: 20px;
 }
 
 .notification {

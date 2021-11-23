@@ -41,6 +41,7 @@ const userObject = (userAuth, additionalData, snapShotData) => {
       : displayName,
     createdAt,
     authMethod,
+    notifications: snapShotData?.notifications || {},
     rates: snapShotData?.rates || {},
     ...additionalData,
   };
@@ -97,10 +98,19 @@ export const signInWithEmailAndPass = (email, password) =>
 export const createUserWithEmailAndPass = (email, password) =>
   createUserWithEmailAndPassword(auth, email, password);
 
-export const changeDbUserField = (userId, field) => {
+export const changeDbUserField = async (userId, field, partly) => {
   const userRef = doc(firestore, `users/${userId}`);
   const fieldName = Object.keys(field)[0];
-  updateDoc(userRef, fieldName, field[fieldName]);
+
+  if (partly) {
+    const userSnap = await getDoc(userRef);
+    updateDoc(userRef, fieldName, {
+      ...userSnap.data()[fieldName],
+      [field.id]: field[fieldName],
+    });
+  } else {
+    updateDoc(userRef, fieldName, field[fieldName]);
+  }
 };
 
 export const updateUserRates = (posts, currentUser) => {

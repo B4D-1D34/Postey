@@ -3,7 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { createNewComment, getAuthorName } from "../../firebase/firebase.utils";
+import {
+  changeDbUserField,
+  createNewComment,
+  getAuthorName,
+} from "../../firebase/firebase.utils";
 import { commentUpdate } from "../../redux/posts/posts.actions";
 import { selectCurrentPosts } from "../../redux/posts/posts.selectors";
 import { updateFailure } from "../../redux/user/user.actions";
@@ -15,6 +19,7 @@ const NewCommentForm = ({ postId, replyReference, setReplyReference }) => {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
   const [content, setContent] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
   const posts = useSelector(selectCurrentPosts);
   const receiverName = useRef();
 
@@ -24,6 +29,7 @@ const NewCommentForm = ({ postId, replyReference, setReplyReference }) => {
   };
 
   const handleSubmit = (e) => {
+    setIsProcessing(true);
     e.preventDefault();
     if (!content.trim()) {
       dispatch(updateFailure({ message: "You can't post an empty message" }));
@@ -36,12 +42,39 @@ const NewCommentForm = ({ postId, replyReference, setReplyReference }) => {
       replyReference,
     })
       .then((comment) => {
+        //notify post author if it's not current user
+        if (currentUser.id !== posts[postId].author) {
+          changeDbUserField(
+            posts[postId].author,
+            {
+              notifications: { referenceId: postId },
+              id: comment.id,
+            },
+            true
+          );
+        }
+        //notify comment author if reply exists and it's not current user
+        if (comment.data?.replyReference) {
+          const replyReceiver = posts[postId]?.comments[replyReference]?.author;
+          if (currentUser.id !== replyReceiver) {
+            changeDbUserField(
+              replyReceiver,
+              {
+                notifications: { referenceId: replyReference },
+                id: comment.id,
+              },
+              true
+            );
+          }
+        }
+        //redux state update
         dispatch(
           commentUpdate({ data: { postId, commentId: comment.id, comment } })
         );
 
         setReplyReference("");
         setContent("");
+        setIsProcessing(false);
       })
       .catch(({ message }) => dispatch(updateFailure({ message })));
   };
@@ -76,7 +109,11 @@ const NewCommentForm = ({ postId, replyReference, setReplyReference }) => {
       </div>
       <ResizableInput handleChange={handleChange} content={content} />
       <div className={styles.submitGroup}>
-        <button className={styles.submitBtn} type="submit">
+        <button
+          className={styles.submitBtn}
+          disabled={isProcessing}
+          type="submit"
+        >
           Publish
         </button>
       </div>

@@ -15,6 +15,7 @@ const NewPostForm = () => {
     content: "",
     closeComments: false,
   });
+  const [isProcessing, setIsProcessing] = useState(false);
   const currentUser = useSelector(selectCurrentUser);
   const { theme, content, closeComments } = post;
 
@@ -29,6 +30,7 @@ const NewPostForm = () => {
   };
 
   const handleSubmit = (e) => {
+    setIsProcessing(true);
     e.preventDefault();
     if (!content.trim()) {
       dispatch(updateFailure({ message: "You can't post an empty message" }));
@@ -48,6 +50,7 @@ const NewPostForm = () => {
           })
         );
         setPost({ theme: "", content: "", closeComments: false });
+        setIsProcessing(false);
       })
       .catch(({ message }) => dispatch(updateFailure({ message })));
   };
@@ -67,7 +70,11 @@ const NewPostForm = () => {
       <div className={styles.visibleWithFocus}>
         <ResizableInput handleChange={handleChange} content={content} />
         <div className={styles.submitGroup}>
-          <button className={styles.submitBtn} type="submit">
+          <button
+            disabled={isProcessing}
+            className={styles.submitBtn}
+            type="submit"
+          >
             Publish
           </button>
           <div className={styles.closeCommentsWrapper}>

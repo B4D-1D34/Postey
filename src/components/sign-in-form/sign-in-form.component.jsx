@@ -9,6 +9,7 @@ import styles from "./sign-in-form.module.css";
 const SignInForm = ({ setIsSignUpShown }) => {
   const dispatch = useDispatch();
   const error = useSelector(selectError);
+  const [isProcessing, setIsProcessing] = useState(false);
   const [userCredentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -17,10 +18,12 @@ const SignInForm = ({ setIsSignUpShown }) => {
   const { email, password } = userCredentials;
 
   const handleSubmit = async (e) => {
+    setIsProcessing(true);
     e.preventDefault();
     try {
       const user = await signInWithEmailAndPass(email, password);
       localStorage.setItem("currentUser", JSON.stringify(user.user.uid));
+      setIsProcessing(false);
     } catch (err) {
       dispatch(
         signInFailure({
@@ -74,7 +77,11 @@ const SignInForm = ({ setIsSignUpShown }) => {
           required
         />
       </div>
-      <button className={styles.signInSubmit} type="submit">
+      <button
+        disabled={isProcessing}
+        className={styles.signInSubmit}
+        type="submit"
+      >
         Sign In
       </button>
       <p className={styles.toSignUp} onClick={() => setIsSignUpShown(true)}>

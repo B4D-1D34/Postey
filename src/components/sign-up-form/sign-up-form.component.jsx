@@ -16,6 +16,7 @@ const SignUpForm = ({ setIsSignUpShown }) => {
   const formBG = useRef();
   const dispatch = useDispatch();
   const error = useSelector(selectError);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     formBG.current.addEventListener("click", (e) => {
@@ -36,6 +37,7 @@ const SignUpForm = ({ setIsSignUpShown }) => {
     userCredentials;
 
   const handleSubmit = async (e) => {
+    setIsProcessing(true);
     e.preventDefault();
 
     if (password !== passwordConfirmation) {
@@ -50,8 +52,10 @@ const SignUpForm = ({ setIsSignUpShown }) => {
     }
     try {
       const { user } = await createUserWithEmailAndPass(email, password);
-      await createUserProfileDocument(user, { displayName });
+      const curruser = await createUserProfileDocument(user, { displayName });
       setIsSignUpShown(false);
+      setIsProcessing(false);
+      localStorage.setItem("currentUser", JSON.stringify(curruser));
     } catch (err) {
       dispatch(
         signInFailure({
@@ -137,7 +141,11 @@ const SignUpForm = ({ setIsSignUpShown }) => {
             required
           />
         </div>
-        <button className={styles.signUpSubmit} type="submit">
+        <button
+          disabled={isProcessing}
+          className={styles.signUpSubmit}
+          type="submit"
+        >
           Sign Up
         </button>
       </form>

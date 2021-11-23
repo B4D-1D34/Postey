@@ -24,22 +24,28 @@ import {
   commentUpdate,
   postUpdateSuccess,
 } from "../../redux/posts/posts.actions";
+import { useState } from "react";
 
 const RatingBox = ({ postId, commentId }) => {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
   const posts = useSelector(selectCurrentPosts);
-  let { rating } = posts[postId];
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  let { rating, author } = posts[postId];
   let userRate = currentUser?.rates[postId];
   if (commentId) {
     rating = posts[postId].comments[commentId].rating;
     userRate = currentUser?.rates[commentId];
+    author = posts[postId].comments[commentId].author;
   }
   const handleRate = ({ target }) => {
     if (!currentUser) {
       dispatch(updateFailure({ message: "You should be signed in!" }));
       return;
     }
+    setIsProcessing(true);
+
     let currentRate = target.getAttribute("datatype");
     let postRating = 0;
     if (
@@ -63,45 +69,79 @@ const RatingBox = ({ postId, commentId }) => {
 
     try {
       if (commentId) {
+        //write into current user rates db
         changeDbUserField(currentUser.id, {
           rates: { ...currentUser?.rates, [commentId]: currentRate },
-        });
-        changeDbCommentField(postId, commentId, {
-          rating: rating + postRating,
-        }).then((comment) => {
-          dispatch(
-            commentUpdate({
-              data: {
-                postId,
-                commentId,
-                comment,
+        }).then(() => {
+          //write into receiver user notifications, order of keys in data object is important!! same user actions are not sended to notifications.
+          if (currentUser.id !== author) {
+            changeDbUserField(
+              author,
+              {
+                notifications: { sender: currentUser.id, currentRate },
+                id: `${commentId}${currentUser.id}`,
               },
+              true
+            );
+          }
+          // ).then(() => {
+          //write into comment's db, and dispatch to redux state
+          changeDbCommentField(postId, commentId, {
+            rating: rating + postRating,
+          }).then((comment) => {
+            dispatch(
+              commentUpdate({
+                data: {
+                  postId,
+                  commentId,
+                  comment,
+                },
+              })
+            );
+            dispatch(
+              currentUserUpdate({
+                ...currentUser,
+                rates: { ...currentUser.rates, [commentId]: currentRate },
+              })
+            );
+            setIsProcessing(false);
+          });
+          // });
+        });
+      } else {
+        //write into current user rates db
+        changeDbUserField(currentUser.id, {
+          rates: { ...currentUser?.rates, [postId]: currentRate },
+        }).then(() => {
+          //write into receiver user notifications, order of keys in data object is important!! same user actions are not sended to notifications.
+          if (currentUser.id !== author) {
+            changeDbUserField(
+              author,
+              {
+                notifications: { sender: currentUser.id, currentRate },
+                id: `${postId}${currentUser.id}`,
+              },
+              true
+            );
+          }
+          // .then(() => {
+          //write into posts's db, and dispatch to redux state
+          changeDbPostField(postId, { rating: rating + postRating });
+          dispatch(
+            postUpdateSuccess({
+              id: postId,
+              data: { ...posts[postId], rating: rating + postRating },
             })
           );
           dispatch(
             currentUserUpdate({
               ...currentUser,
-              rates: { ...currentUser.rates, [commentId]: currentRate },
+              rates: { ...currentUser.rates, [postId]: currentRate },
             })
           );
+          setIsProcessing(false);
+          // });
         });
-      } else {
-        changeDbUserField(currentUser.id, {
-          rates: { ...currentUser?.rates, [postId]: currentRate },
-        });
-        changeDbPostField(postId, { rating: rating + postRating });
-        dispatch(
-          postUpdateSuccess({
-            id: postId,
-            data: { ...posts[postId], rating: rating + postRating },
-          })
-        );
-        dispatch(
-          currentUserUpdate({
-            ...currentUser,
-            rates: { ...currentUser.rates, [postId]: currentRate },
-          })
-        );
       }
     } catch (err) {
       dispatch(updateFailure({ message: "Sorry, something went wrong" }));
@@ -109,7 +149,12 @@ const RatingBox = ({ postId, commentId }) => {
   };
   return (
     <div className={styles.rating}>
-      <div className={styles.iconBtn} datatype="true" onClick={handleRate}>
+      <button
+        className={styles.iconBtn}
+        disabled={isProcessing}
+        datatype="true"
+        onClick={handleRate}
+      >
         <FontAwesomeIcon
           icon={faChevronUp}
           style={{
@@ -117,7 +162,7 @@ const RatingBox = ({ postId, commentId }) => {
           }}
           className={`${styles.icon} ${styles.upIcon}`}
         />
-      </div>
+      </button>
       <div className={styles.ratingIconBlock}>
         <FontAwesomeIcon
           icon={faStar}
@@ -134,7 +179,12 @@ const RatingBox = ({ postId, commentId }) => {
         />
         {rating}
       </div>
-      <div className={styles.iconBtn} datatype="false" onClick={handleRate}>
+      <button
+        className={styles.iconBtn}
+        disabled={isProcessing}
+        datatype="false"
+        onClick={handleRate}
+      >
         <FontAwesomeIcon
           icon={faChevronDown}
           style={{
@@ -142,7 +192,7 @@ const RatingBox = ({ postId, commentId }) => {
           }}
           className={`${styles.icon} ${styles.downIcon}`}
         />
-      </div>
+      </button>
     </div>
   );
 };

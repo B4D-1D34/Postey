@@ -15,6 +15,10 @@
 .iconBtn {
   padding: 2px 10px;
   border-radius: 4px;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: inherit;
 }
 
 .iconBtn:hover {
