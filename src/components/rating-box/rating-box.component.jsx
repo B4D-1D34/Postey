@@ -78,7 +78,12 @@ const RatingBox = ({ postId, commentId }) => {
             changeDbUserField(
               author,
               {
-                notifications: { sender: currentUser.id, currentRate },
+                notifications: {
+                  sender: currentUser.id,
+                  currentRate,
+                  createdAt: new Date(),
+                  refPostId: postId,
+                },
                 id: `${commentId}${currentUser.id}`,
               },
               true
@@ -118,7 +123,11 @@ const RatingBox = ({ postId, commentId }) => {
             changeDbUserField(
               author,
               {
-                notifications: { sender: currentUser.id, currentRate },
+                notifications: {
+                  sender: currentUser.id,
+                  currentRate,
+                  createdAt: new Date(),
+                },
                 id: `${postId}${currentUser.id}`,
               },
               true

@@ -30,9 +30,11 @@ const PostDataBlock = ({
   const isEditTimePassed = Math.floor((Date.now() - time) / 1000 / 60) > 15;
 
   useEffect(() => {
-    getAuthorName(author).then((name) => {
-      authorName.current.innerText = name;
-    });
+    if (author) {
+      getAuthorName(author).then((name) => {
+        authorName.current.innerText = name;
+      });
+    }
     if (contentBlock.current) {
       contentBlock.current.innerHTML = content.replaceAll("\n", "<br />");
     }

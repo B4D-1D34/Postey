@@ -123,7 +123,7 @@ export const updateUserRates = (posts, currentUser) => {
   );
   const allRecords = Object.keys(posts).concat(Object.keys(allComments));
   const filteredRecords = Object.keys(currentUser.rates)
-    .filter((key) => allRecords.includes(key))
+    .filter((key) => allRecords.includes(key) && currentUser.rates[key])
     .reduce(
       (acc, key) => (acc = { ...acc, [key]: currentUser.rates[key] }),
       {}

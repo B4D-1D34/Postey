@@ -33,6 +33,14 @@
   background-color: rgba(255, 255, 255, 0.07);
 }
 
+.icon {
+  font-size: 17px;
+}
+
+.icon:hover ~ * {
+  visibility: visible;
+}
+
 .signInBtn:hover ~ * {
   visibility: visible;
 }
@@ -71,5 +79,8 @@
   .navbarBtn {
     padding: 4px 8px;
     max-width: 90px;
+  }
+  .icon {
+    font-size: 15px;
   }
 }

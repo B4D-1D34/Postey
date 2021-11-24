@@ -10,6 +10,9 @@ import SignInForm from "../sign-in-form/sign-in-form.component";
 import { useState } from "react";
 import SignUpForm from "../sign-up-form/sign-up-form.component";
 import CustomLink from "../custom-link/custom-link.component";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
+import ActionNotificationBox from "../action-notification-box/action-notification-box.component";
 
 const Navbar = () => {
   const [isSignUpShown, setIsSignUpShown] = useState(false);
@@ -41,6 +44,14 @@ const Navbar = () => {
       <div className={styles.btnContainer}>
         {JSON.parse(localStorage.getItem("currentUser")) ? (
           <>
+            {/* {currentUser ? (
+              <>
+                <button className={`${styles.navbarBtn} ${styles.icon}`}>
+                  <FontAwesomeIcon icon={faBell} />
+                </button>
+                <ActionNotificationBox />
+              </>
+            ) : null} */}
             <CustomLink url="/profile">
               <button className={styles.navbarBtn}>Profile</button>
             </CustomLink>

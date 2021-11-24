@@ -32,9 +32,12 @@ const Comment = ({
   const countedTime = countTime(time);
 
   useEffect(() => {
-    getAuthorName(author).then((name) => {
-      authorName.current.innerText = name;
-    });
+    if (author) {
+      console.log(author);
+      getAuthorName(author).then((name) => {
+        authorName.current.innerText = name;
+      });
+    }
     if (contentBlock.current) {
       contentBlock.current.innerHTML = content.replaceAll("\n", "<br />");
       setIsEnoughSpace(

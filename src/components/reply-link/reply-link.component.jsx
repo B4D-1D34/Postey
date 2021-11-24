@@ -10,7 +10,7 @@ const ReplyLink = ({ replyReference, postId, commentSectionRef }) => {
   const timer = useRef();
 
   useEffect(() => {
-    if (replyReference) {
+    if (posts[postId]?.comments[replyReference]?.author) {
       getAuthorName(posts[postId]?.comments[replyReference]?.author).then(
         (name) => {
           receiverName.current.innerText = `to ${name}`;
@@ -20,17 +20,19 @@ const ReplyLink = ({ replyReference, postId, commentSectionRef }) => {
   }, [replyReference]);
 
   const showReplyReference = () => {
-    if (timer.current) {
-      clearTimeout(timer.current);
+    if (posts[postId]?.comments[replyReference]) {
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+      const replyRefElement = Array(
+        ...commentSectionRef.current.children
+      ).filter((el) => el.getAttribute("forreplylink") === replyReference)[0];
+      replyRefElement.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      replyRefElement.classList.add(styles.showing);
+      timer.current = setTimeout(() => {
+        replyRefElement.classList.remove(styles.showing);
+      }, 1500);
     }
-    const replyRefElement = Array(...commentSectionRef.current.children).filter(
-      (el) => el.getAttribute("forreplylink") === replyReference
-    )[0];
-    replyRefElement.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    replyRefElement.classList.add(styles.showing);
-    timer.current = setTimeout(() => {
-      replyRefElement.classList.remove(styles.showing);
-    }, 1500);
   };
 
   return (
