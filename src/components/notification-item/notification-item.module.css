@@ -1,3 +1,31 @@
 .notificationItem {
-  /* height: 100px; */
+  max-width: 230px;
+}
+
+.author {
+  color: rgb(224, 123, 0);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.content {
+  display: flex;
+}
+
+.link {
+  margin-left: 5px;
+  color: #42c0a1;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+.time {
+  color: rgb(139, 139, 139);
+  font-weight: 500;
+  margin-right: 15px;
+  white-space: nowrap;
 }

@@ -8,6 +8,10 @@
   transition: all 0.3s;
 }
 
+.showing {
+  background: rgb(255, 220, 174);
+}
+
 .postsHead {
   display: flex;
   justify-content: space-between;

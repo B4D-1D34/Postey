@@ -7,15 +7,23 @@ import { selectCurrentUser } from "../../redux/user/user.selectors";
 import { signOutSuccess, updateFailure } from "../../redux/user/user.actions";
 import { useSelector, useDispatch } from "react-redux";
 import SignInForm from "../sign-in-form/sign-in-form.component";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SignUpForm from "../sign-up-form/sign-up-form.component";
 import CustomLink from "../custom-link/custom-link.component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import ActionNotificationBox from "../action-notification-box/action-notification-box.component";
+import { useLocation } from "react-router";
 
 const Navbar = () => {
   const [isSignUpShown, setIsSignUpShown] = useState(false);
+  const [isNotificationsHidden, setIsNotificationsHidden] = useState(true);
+  const location = useLocation();
+  const notificationsBox = useRef();
+
+  useEffect(() => {
+    setIsNotificationsHidden(true);
+  }, [location]);
 
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
@@ -33,6 +41,23 @@ const Navbar = () => {
       dispatch(updateFailure({ message: "Sign in failed, try again" }));
     }
   };
+
+  const clickOutClose = ({ target }) => {
+    if (!notificationsBox.current.contains(target)) {
+      setIsNotificationsHidden(true);
+      document.removeEventListener("click", clickOutClose);
+    }
+  };
+
+  const toggleNotifications = () => {
+    if (isNotificationsHidden) {
+      document.addEventListener("click", clickOutClose);
+      setIsNotificationsHidden(false);
+    } else {
+      document.removeEventListener("click", clickOutClose);
+      setIsNotificationsHidden(true);
+    }
+  };
   return (
     <div className={styles.navbar}>
       <CustomLink url="/">
@@ -44,14 +69,19 @@ const Navbar = () => {
       <div className={styles.btnContainer}>
         {JSON.parse(localStorage.getItem("currentUser")) ? (
           <>
-            {/* {currentUser ? (
-              <>
-                <button className={`${styles.navbarBtn} ${styles.icon}`}>
+            {currentUser ? (
+              <div ref={notificationsBox}>
+                <button
+                  className={`${styles.navbarBtn} ${styles.icon}`}
+                  onClick={toggleNotifications}
+                >
                   <FontAwesomeIcon icon={faBell} />
                 </button>
-                <ActionNotificationBox />
-              </>
-            ) : null} */}
+                <div className={styles.noBorder} hidden={isNotificationsHidden}>
+                  <ActionNotificationBox />
+                </div>
+              </div>
+            ) : null}
             <CustomLink url="/profile">
               <button className={styles.navbarBtn}>Profile</button>
             </CustomLink>

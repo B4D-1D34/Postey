@@ -1,6 +1,7 @@
 import { faMinus, faPlus, faReply } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router";
 import { getAuthorName } from "../../firebase/firebase.utils";
 import { countTime } from "../../timeCountHelper";
 import DeletePostButton from "../delete-post-button/delete-post-button.component";
@@ -22,6 +23,8 @@ const Comment = ({
   commentSectionRef,
   closeComments,
 }) => {
+  const location = useLocation();
+  const currentComment = useRef();
   const authorName = useRef();
   const contentBlock = useRef();
   const contentWrapper = useRef();
@@ -32,8 +35,17 @@ const Comment = ({
   const countedTime = countTime(time);
 
   useEffect(() => {
+    if (location.hash.slice(1) === id) {
+      currentComment.current.scrollIntoView({ block: "nearest" });
+      currentComment.current.classList.add(styles.showing);
+      setTimeout(() => {
+        currentComment.current.classList.remove(styles.showing);
+      }, 1500);
+    }
+  }, [location]);
+
+  useEffect(() => {
     if (author) {
-      console.log(author);
       getAuthorName(author).then((name) => {
         authorName.current.innerText = name;
       });
@@ -59,7 +71,7 @@ const Comment = ({
     commentSectionRef.current.children[1].children[1].children[1].focus();
   };
   return (
-    <div className={styles.comment} forreplylink={id}>
+    <div className={styles.comment} ref={currentComment} forreplylink={id}>
       <div className={styles.postsHead}>
         <div className={styles.authorAndTime}>
           <h4 className={styles.author} ref={authorName}>

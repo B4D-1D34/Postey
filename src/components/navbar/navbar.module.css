@@ -37,8 +37,8 @@
   font-size: 17px;
 }
 
-.icon:hover ~ * {
-  visibility: visible;
+.noBorder {
+  border-right: none !important;
 }
 
 .signInBtn:hover ~ * {
