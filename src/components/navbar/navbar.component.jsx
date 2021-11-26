@@ -1,4 +1,5 @@
 import {
+  changeDbUserField,
   firebaseSignOut,
   signInWithGoogle,
 } from "../../firebase/firebase.utils";
@@ -18,6 +19,7 @@ import { useLocation } from "react-router";
 const Navbar = () => {
   const [isSignUpShown, setIsSignUpShown] = useState(false);
   const [isNotificationsHidden, setIsNotificationsHidden] = useState(true);
+  const [notificationsCount, setNotificationsCount] = useState(0);
   const location = useLocation();
   const notificationsBox = useRef();
 
@@ -42,10 +44,31 @@ const Navbar = () => {
     }
   };
 
+  const notificationsSeen = () => {
+    if (notificationsCount) {
+      Object.keys(currentUser.notifications).forEach(
+        async (key) =>
+          await changeDbUserField(
+            currentUser.id,
+            {
+              notifications: {
+                ...currentUser.notifications[key],
+                unseen: false,
+              },
+              id: key,
+            },
+            true
+          )
+      );
+      //update redux state//////////////////////
+    }
+  };
+
   const clickOutClose = ({ target }) => {
-    if (!notificationsBox.current.contains(target)) {
+    if (!notificationsBox.current?.contains(target)) {
       setIsNotificationsHidden(true);
       document.removeEventListener("click", clickOutClose);
+      notificationsSeen();
     }
   };
 
@@ -56,6 +79,7 @@ const Navbar = () => {
     } else {
       document.removeEventListener("click", clickOutClose);
       setIsNotificationsHidden(true);
+      notificationsSeen();
     }
   };
   return (
@@ -76,9 +100,16 @@ const Navbar = () => {
                   onClick={toggleNotifications}
                 >
                   <FontAwesomeIcon icon={faBell} />
+                  {notificationsCount ? (
+                    <div className={styles.notificationsCount}>
+                      {notificationsCount}
+                    </div>
+                  ) : null}
                 </button>
                 <div className={styles.noBorder} hidden={isNotificationsHidden}>
-                  <ActionNotificationBox />
+                  <ActionNotificationBox
+                    setNotificationsCount={setNotificationsCount}
+                  />
                 </div>
               </div>
             ) : null}

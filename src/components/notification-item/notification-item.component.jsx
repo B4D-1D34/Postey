@@ -12,6 +12,7 @@ const NotificationItem = ({
   refPostId,
   refCommentId,
   currentRate,
+  unseen,
 }) => {
   const [sender, setSender] = useState("user");
 
@@ -21,47 +22,59 @@ const NotificationItem = ({
     <div className={styles.notificationItem}>
       {type === "comment" ? (
         <>
-          <h4 className={styles.author}>{sender}</h4>
-          <div className={styles.content}>
-            <p>commented your</p>
-            <CustomLink url={`/post/${refPostId}/#${id}`}>
-              <p className={styles.link}>post</p>
-            </CustomLink>
+          <div className={styles.unseenIcon} hidden={!unseen} />
+          <div className={styles.notifData}>
+            <h4 className={styles.author}>{sender}</h4>
+            <div className={styles.content}>
+              <p>commented your</p>
+              <CustomLink url={`/post/${refPostId}/#${id}`}>
+                <p className={styles.link}>post</p>
+              </CustomLink>
+            </div>
+            <h5 className={styles.time}>{time}</h5>
           </div>
-          <h5 className={styles.time}>{time}</h5>
         </>
       ) : type === "reply" ? (
         <>
-          <h4 className={styles.author}>{sender}</h4>
-          <div className={styles.content}>
-            <p>replied to your</p>
-            <CustomLink url={`/post/${refPostId}/#${id}`}>
-              <p className={styles.link}>comment</p>
-            </CustomLink>
+          <div className={styles.unseenIcon} hidden={!unseen} />
+          <div className={styles.notifData}>
+            <h4 className={styles.author}>{sender}</h4>
+            <div className={styles.content}>
+              <p>replied to your</p>
+              <CustomLink url={`/post/${refPostId}/#${id}`}>
+                <p className={styles.link}>comment</p>
+              </CustomLink>
+            </div>
+            <h5 className={styles.time}>{time}</h5>
           </div>
-          <h5 className={styles.time}>{time}</h5>
         </>
       ) : type === "commentRate" ? (
         <>
-          <h4 className={styles.author}>{sender}</h4>
-          <div className={styles.content}>
-            <p>{currentRate === "true" ? "upvoted" : "downvoted"} your</p>
-            <CustomLink url={`/post/${refPostId}/#${id}`}>
-              <p className={styles.link}>comment</p>
-            </CustomLink>
+          <div className={styles.unseenIcon} hidden={!unseen} />
+          <div className={styles.notifData}>
+            <h4 className={styles.author}>{sender}</h4>
+            <div className={styles.content}>
+              <p>{currentRate === "true" ? "upvoted" : "downvoted"} your</p>
+              <CustomLink url={`/post/${refPostId}/#${id}`}>
+                <p className={styles.link}>comment</p>
+              </CustomLink>
+            </div>
+            <h5 className={styles.time}>{time}</h5>
           </div>
-          <h5 className={styles.time}>{time}</h5>
         </>
       ) : type === "postRate" ? (
         <>
-          <h4 className={styles.author}>{sender}</h4>
-          <div className={styles.content}>
-            <p>{currentRate === "true" ? "upvoted" : "downvoted"} your</p>
-            <CustomLink url={`/post/${id}`}>
-              <p className={styles.link}>post</p>
-            </CustomLink>
+          <div className={styles.unseenIcon} hidden={!unseen} />
+          <div className={styles.notifData}>
+            <h4 className={styles.author}>{sender}</h4>
+            <div className={styles.content}>
+              <p>{currentRate === "true" ? "upvoted" : "downvoted"} your</p>
+              <CustomLink url={`/post/${id}`}>
+                <p className={styles.link}>post</p>
+              </CustomLink>
+            </div>
+            <h5 className={styles.time}>{time}</h5>
           </div>
-          <h5 className={styles.time}>{time}</h5>
         </>
       ) : null}
     </div>

@@ -18,3 +18,12 @@
   border-bottom: 1px solid rgb(231, 231, 231);
   margin-bottom: 15px;
 }
+
+.noNotif {
+  position: relative;
+  word-break: break-word;
+  width: 150px;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+}

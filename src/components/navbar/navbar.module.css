@@ -35,6 +35,23 @@
 
 .icon {
   font-size: 17px;
+  position: relative;
+}
+
+.notificationsCount {
+  position: absolute;
+  top: 0;
+  right: 1px;
+  line-height: 0;
+  font-size: 12px;
+  background: #0ccf9e;
+  border-radius: 100%;
+  padding-right: 1px;
+  width: 17px;
+  height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .noBorder {
@@ -82,5 +99,10 @@
   }
   .icon {
     font-size: 15px;
+  }
+  .notificationsCount {
+    font-size: 11px;
+    width: 15px;
+    height: 15px;
   }
 }

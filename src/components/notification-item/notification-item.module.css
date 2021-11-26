@@ -1,5 +1,7 @@
 .notificationItem {
   max-width: 230px;
+  display: flex;
+  align-items: center;
 }
 
 .author {
@@ -28,4 +30,24 @@
   font-weight: 500;
   margin-right: 15px;
   white-space: nowrap;
+}
+
+.unseenIcon {
+  width: 7px;
+  height: 7px;
+  border-radius: 20px;
+  background: #42c0a1;
+  margin-right: 12px;
+  margin-left: 3px;
+  flex-shrink: 0;
+  animation: blink infinite 1.5s;
+}
+
+@keyframes blink {
+  0% {
+    background: #42c0a1;
+  }
+  50% {
+    background: #00ffbf;
+  }
 }

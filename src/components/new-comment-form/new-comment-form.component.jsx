@@ -47,7 +47,11 @@ const NewCommentForm = ({ postId, replyReference, setReplyReference }) => {
           changeDbUserField(
             posts[postId].author,
             {
-              notifications: { refPostId: postId, createdAt: new Date() },
+              notifications: {
+                refPostId: postId,
+                createdAt: new Date(),
+                unseen: true,
+              },
               id: comment.id,
             },
             true
@@ -64,6 +68,7 @@ const NewCommentForm = ({ postId, replyReference, setReplyReference }) => {
                   refPostId: postId,
                   refCommentId: replyReference,
                   createdAt: new Date(),
+                  unseen: true,
                 },
                 id: comment.id,
               },
