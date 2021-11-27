@@ -36,10 +36,10 @@ const Comment = ({
 
   useEffect(() => {
     if (location.hash.slice(1) === id) {
-      currentComment.current.scrollIntoView({ block: "nearest" });
-      currentComment.current.classList.add(styles.showing);
+      currentComment.current?.scrollIntoView({ block: "nearest" });
+      currentComment.current?.classList.add(styles.showing);
       setTimeout(() => {
-        currentComment.current.classList.remove(styles.showing);
+        currentComment.current?.classList.remove(styles.showing);
       }, 1500);
     }
   }, [location]);

@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { changeDbUserField } from "../../firebase/firebase.utils";
 import { selectCurrentPosts } from "../../redux/posts/posts.selectors";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
 import NotificationItem from "../notification-item/notification-item.component";
@@ -112,9 +114,28 @@ const ActionNotificationBox = ({ setNotificationsCount }) => {
       }
     })
     .map((notification) => notification);
-  setNotificationsCount(
-    filteredNotifications.filter(({ props }) => props.unseen).length
+
+  //deleting inexistent notifications from db
+  let newNotifications = {};
+  filteredNotifications.slice(0, 15).forEach(
+    ({ key }) =>
+      (newNotifications = {
+        ...newNotifications,
+        [key.replace("_notif", "")]: {
+          ...currentUser.notifications[key.replace("_notif", "")],
+        },
+      })
   );
+  changeDbUserField(currentUser.id, { notifications: newNotifications });
+  //deleting inexistent notifications from db
+  useEffect(
+    () =>
+      setNotificationsCount(
+        filteredNotifications.filter(({ props }) => props.unseen).length
+      ),
+    []
+  );
+
   return (
     <div className={styles.actionNotificationBox}>
       {filteredNotifications.length ? (

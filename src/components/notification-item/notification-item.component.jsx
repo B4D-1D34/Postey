@@ -20,63 +20,42 @@ const NotificationItem = ({
   const time = countTime(createdAt);
   return (
     <div className={styles.notificationItem}>
-      {type === "comment" ? (
-        <>
-          <div className={styles.unseenIcon} hidden={!unseen} />
-          <div className={styles.notifData}>
-            <h4 className={styles.author}>{sender}</h4>
-            <div className={styles.content}>
+      <div className={styles.unseenIcon} hidden={!unseen} />
+      <div className={styles.notifData}>
+        <h4 className={styles.author}>{sender}</h4>
+        <div className={styles.content}>
+          {type === "comment" ? (
+            <>
               <p>commented your</p>
               <CustomLink url={`/post/${refPostId}/#${id}`}>
                 <p className={styles.link}>post</p>
               </CustomLink>
-            </div>
-            <h5 className={styles.time}>{time}</h5>
-          </div>
-        </>
-      ) : type === "reply" ? (
-        <>
-          <div className={styles.unseenIcon} hidden={!unseen} />
-          <div className={styles.notifData}>
-            <h4 className={styles.author}>{sender}</h4>
-            <div className={styles.content}>
+            </>
+          ) : type === "reply" ? (
+            <>
               <p>replied to your</p>
               <CustomLink url={`/post/${refPostId}/#${id}`}>
                 <p className={styles.link}>comment</p>
               </CustomLink>
-            </div>
-            <h5 className={styles.time}>{time}</h5>
-          </div>
-        </>
-      ) : type === "commentRate" ? (
-        <>
-          <div className={styles.unseenIcon} hidden={!unseen} />
-          <div className={styles.notifData}>
-            <h4 className={styles.author}>{sender}</h4>
-            <div className={styles.content}>
+            </>
+          ) : type === "commentRate" ? (
+            <>
               <p>{currentRate === "true" ? "upvoted" : "downvoted"} your</p>
               <CustomLink url={`/post/${refPostId}/#${id}`}>
                 <p className={styles.link}>comment</p>
               </CustomLink>
-            </div>
-            <h5 className={styles.time}>{time}</h5>
-          </div>
-        </>
-      ) : type === "postRate" ? (
-        <>
-          <div className={styles.unseenIcon} hidden={!unseen} />
-          <div className={styles.notifData}>
-            <h4 className={styles.author}>{sender}</h4>
-            <div className={styles.content}>
+            </>
+          ) : type === "postRate" ? (
+            <>
               <p>{currentRate === "true" ? "upvoted" : "downvoted"} your</p>
               <CustomLink url={`/post/${id}`}>
                 <p className={styles.link}>post</p>
               </CustomLink>
-            </div>
-            <h5 className={styles.time}>{time}</h5>
-          </div>
-        </>
-      ) : null}
+            </>
+          ) : null}
+        </div>
+        <h5 className={styles.time}>{time}</h5>
+      </div>
     </div>
   );
 };

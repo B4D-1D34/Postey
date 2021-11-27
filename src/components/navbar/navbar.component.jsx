@@ -5,7 +5,11 @@ import {
 } from "../../firebase/firebase.utils";
 import styles from "./navbar.module.css";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
-import { signOutSuccess, updateFailure } from "../../redux/user/user.actions";
+import {
+  currentUserUpdate,
+  signOutSuccess,
+  updateFailure,
+} from "../../redux/user/user.actions";
 import { useSelector, useDispatch } from "react-redux";
 import SignInForm from "../sign-in-form/sign-in-form.component";
 import { useEffect, useRef, useState } from "react";
@@ -24,6 +28,7 @@ const Navbar = () => {
   const notificationsBox = useRef();
 
   useEffect(() => {
+    notificationsSeen();
     setIsNotificationsHidden(true);
   }, [location]);
 
@@ -45,41 +50,43 @@ const Navbar = () => {
   };
 
   const notificationsSeen = () => {
-    if (notificationsCount) {
+    console.log(notificationsCount, !isNotificationsHidden);
+    if (notificationsCount && !isNotificationsHidden) {
+      let newNotifications = {};
       Object.keys(currentUser.notifications).forEach(
-        async (key) =>
-          await changeDbUserField(
-            currentUser.id,
-            {
-              notifications: {
-                ...currentUser.notifications[key],
-                unseen: false,
-              },
-              id: key,
-            },
-            true
-          )
+        (key) =>
+          (newNotifications[key] = {
+            ...currentUser.notifications[key],
+            unseen: false,
+          })
       );
+      changeDbUserField(currentUser.id, {
+        notifications: { ...newNotifications },
+      });
       //update redux state//////////////////////
+      dispatch(
+        currentUserUpdate({ ...currentUser, notifications: newNotifications })
+      );
     }
   };
 
   const clickOutClose = ({ target }) => {
+    console.log(notificationsBox.current.attributes);
     if (!notificationsBox.current?.contains(target)) {
-      setIsNotificationsHidden(true);
       document.removeEventListener("click", clickOutClose);
       notificationsSeen();
+      setIsNotificationsHidden(true);
     }
   };
 
   const toggleNotifications = () => {
     if (isNotificationsHidden) {
-      document.addEventListener("click", clickOutClose);
       setIsNotificationsHidden(false);
+      document.addEventListener("click", clickOutClose);
     } else {
-      document.removeEventListener("click", clickOutClose);
-      setIsNotificationsHidden(true);
       notificationsSeen();
+      setIsNotificationsHidden(true);
+      document.removeEventListener("click", clickOutClose);
     }
   };
   return (
@@ -102,7 +109,7 @@ const Navbar = () => {
                   <FontAwesomeIcon icon={faBell} />
                   {notificationsCount ? (
                     <div className={styles.notificationsCount}>
-                      {notificationsCount}
+                      {notificationsCount > 9 ? "9+" : notificationsCount}
                     </div>
                   ) : null}
                 </button>
