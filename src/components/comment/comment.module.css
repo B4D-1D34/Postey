@@ -5,7 +5,6 @@
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 10px;
   height: max-content;
-  transition: all 0.3s;
 }
 
 .showing {
@@ -31,6 +30,8 @@
   word-break: break-word;
   -webkit-line-clamp: 1;
   overflow: hidden;
+  max-width: 190px;
+  min-width: 80px;
 }
 
 .time {
@@ -70,6 +71,10 @@
   align-items: center;
   font-size: 13px;
   padding-top: 20px;
+}
+
+.showing .exposeContent {
+  background: linear-gradient(to top, rgb(255, 220, 174) 80%, transparent);
 }
 
 .exposeBtn {
@@ -114,6 +119,9 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-around;
+  }
+  .author {
+    max-width: none;
   }
   .time {
     margin-left: 0;

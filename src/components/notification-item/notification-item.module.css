@@ -2,6 +2,7 @@
   max-width: 230px;
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .author {
@@ -41,6 +42,32 @@
   margin-left: 3px;
   flex-shrink: 0;
   animation: blink infinite 1.5s;
+}
+
+.notificationItem:hover .deleteBtn {
+  visibility: visible;
+}
+
+.deleteBtn {
+  visibility: hidden;
+  background: white;
+  padding: 5px;
+  border-radius: 50px;
+  width: 25px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.icon {
+  color: rgb(179, 179, 179);
+}
+
+.deleteBtn:hover {
+  cursor: pointer;
+  background: rgb(228, 228, 228);
 }
 
 @keyframes blink {

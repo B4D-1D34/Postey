@@ -128,12 +128,13 @@ const ActionNotificationBox = ({ setNotificationsCount }) => {
   );
   changeDbUserField(currentUser.id, { notifications: newNotifications });
   //deleting inexistent notifications from db
+
   useEffect(
     () =>
       setNotificationsCount(
         filteredNotifications.filter(({ props }) => props.unseen).length
       ),
-    []
+    [filteredNotifications, setNotificationsCount]
   );
 
   return (

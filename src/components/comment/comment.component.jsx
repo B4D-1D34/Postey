@@ -42,7 +42,7 @@ const Comment = ({
         currentComment.current?.classList.remove(styles.showing);
       }, 1500);
     }
-  }, [location]);
+  }, [location, id]);
 
   useEffect(() => {
     if (author) {

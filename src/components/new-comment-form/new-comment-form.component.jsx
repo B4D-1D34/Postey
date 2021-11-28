@@ -107,7 +107,9 @@ const NewCommentForm = ({ postId, replyReference, setReplyReference }) => {
         <h4 className={styles.author}>{currentUser?.displayName}</h4>
         {replyReference ? (
           <div className={styles.reply}>
-            <h5 className={styles.replyReceiver} ref={receiverName}></h5>
+            <h5 className={styles.replyReceiver} ref={receiverName}>
+              receiver
+            </h5>
             <FontAwesomeIcon
               icon={faTimes}
               className={styles.icon}

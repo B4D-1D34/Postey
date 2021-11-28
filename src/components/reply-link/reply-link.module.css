@@ -8,6 +8,8 @@
   word-break: break-all;
   -webkit-line-clamp: 1;
   overflow: hidden;
+  min-width: 70px;
+  max-width: 120px;
 }
 
 .reply:hover {
@@ -22,5 +24,6 @@
 @media screen and (max-width: 480px) {
   .reply {
     margin-left: 0;
+    max-width: none;
   }
 }

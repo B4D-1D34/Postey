@@ -37,7 +37,7 @@ const ReplyLink = ({ replyReference, postId, commentSectionRef }) => {
 
   return (
     <div className={styles.reply} onClick={showReplyReference}>
-      <h5 ref={receiverName}></h5>
+      <h5 ref={receiverName}>receiver</h5>
     </div>
   );
 };

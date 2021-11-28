@@ -27,11 +27,6 @@ const Navbar = () => {
   const location = useLocation();
   const notificationsBox = useRef();
 
-  useEffect(() => {
-    notificationsSeen();
-    setIsNotificationsHidden(true);
-  }, [location]);
-
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
   const appSignOut = () => {
@@ -49,9 +44,8 @@ const Navbar = () => {
     }
   };
 
-  const notificationsSeen = () => {
-    console.log(notificationsCount, !isNotificationsHidden);
-    if (notificationsCount && !isNotificationsHidden) {
+  const notificationsSeen = (notificationsVisible = !isNotificationsHidden) => {
+    if (notificationsCount && notificationsVisible) {
       let newNotifications = {};
       Object.keys(currentUser.notifications).forEach(
         (key) =>
@@ -70,23 +64,40 @@ const Navbar = () => {
     }
   };
 
-  const clickOutClose = ({ target }) => {
-    console.log(notificationsBox.current.attributes);
-    if (!notificationsBox.current?.contains(target)) {
-      document.removeEventListener("click", clickOutClose);
-      notificationsSeen();
+  //if user clicks notification link
+  useEffect(() => {
+    notificationsSeen();
+    setIsNotificationsHidden(true);
+  }, [location]);
+
+  const clickOutClose = (e, forceFire) => {
+    e.stopPropagation();
+
+    console.log("clickout");
+    let condition = !notificationsBox.current?.contains(e.target);
+    if (forceFire) {
+      condition = false;
+    }
+    if (condition) {
+      console.log("zaehalo");
+      document.removeEventListener("click", clickOutClose, { once: true });
+      notificationsSeen(true);
       setIsNotificationsHidden(true);
     }
   };
 
-  const toggleNotifications = () => {
+  const toggleNotifications = (e) => {
+    e.stopPropagation();
     if (isNotificationsHidden) {
       setIsNotificationsHidden(false);
-      document.addEventListener("click", clickOutClose);
+      document.addEventListener("click", clickOutClose, { once: true });
+      // document.onclick = clickOutClose;
     } else {
       notificationsSeen();
+      // clickOutClose(e, false);
       setIsNotificationsHidden(true);
       document.removeEventListener("click", clickOutClose);
+      // document.onclick = null;
     }
   };
   return (
