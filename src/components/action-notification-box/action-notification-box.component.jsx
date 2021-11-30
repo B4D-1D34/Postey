@@ -106,11 +106,16 @@ const ActionNotificationBox = ({ setNotificationsCount }) => {
     );
   const filteredNotifications = allNotifications
     .sort((a, b) => b.props.createdAt - a.props.createdAt)
-    .filter(({ props }) => {
-      if (props.type === "postRate") {
-        return posts[props.id];
+    .filter(({ props: { type, id, author, refPostId } }) => {
+      if (type === "postRate") {
+        return posts[id] && currentUser.notifications[`${id}${author}`];
+      } else if (type === "commentRate") {
+        return (
+          posts[refPostId]?.comments[id] &&
+          currentUser.notifications[`${id}${author}`]
+        );
       } else {
-        return posts[props.refPostId]?.comments[props.id];
+        return posts[refPostId]?.comments[id];
       }
     })
     .map((notification) => notification);

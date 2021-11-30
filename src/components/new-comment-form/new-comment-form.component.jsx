@@ -54,7 +54,7 @@ const NewCommentForm = ({ postId, replyReference, setReplyReference }) => {
               },
               id: comment.id,
             },
-            true
+            "partly"
           );
         }
         //notify comment author if reply exists and it's not current user
@@ -72,7 +72,7 @@ const NewCommentForm = ({ postId, replyReference, setReplyReference }) => {
                 },
                 id: comment.id,
               },
-              true
+              "partly"
             );
           }
         }

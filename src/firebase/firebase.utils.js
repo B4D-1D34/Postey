@@ -98,15 +98,21 @@ export const signInWithEmailAndPass = (email, password) =>
 export const createUserWithEmailAndPass = (email, password) =>
   createUserWithEmailAndPassword(auth, email, password);
 
-export const changeDbUserField = async (userId, field, partly) => {
+export const changeDbUserField = async (userId, field, mode) => {
   const userRef = doc(firestore, `users/${userId}`);
   const fieldName = Object.keys(field)[0];
 
-  if (partly) {
+  if (mode === "partly") {
     const userSnap = await getDoc(userRef);
     updateDoc(userRef, fieldName, {
       ...userSnap.data()[fieldName],
       [field.id]: field[fieldName],
+    });
+  } else if (mode === "add") {
+    const userSnap = await getDoc(userRef);
+    updateDoc(userRef, fieldName, {
+      ...userSnap.data()[fieldName],
+      ...field[fieldName],
     });
   } else {
     updateDoc(userRef, fieldName, field[fieldName]);

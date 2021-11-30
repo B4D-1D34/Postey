@@ -22,7 +22,7 @@ import { useLocation } from "react-router";
 
 const Navbar = () => {
   const [isSignUpShown, setIsSignUpShown] = useState(false);
-  const [isNotificationsHidden, setIsNotificationsHidden] = useState(true);
+  const [isNotificationsHidden, setIsNotificationsHidden] = useState(1);
   const [notificationsCount, setNotificationsCount] = useState(0);
   const location = useLocation();
   const notificationsBox = useRef();
@@ -44,8 +44,8 @@ const Navbar = () => {
     }
   };
 
-  const notificationsSeen = (notificationsVisible = !isNotificationsHidden) => {
-    if (notificationsCount && notificationsVisible) {
+  const notificationsSeen = () => {
+    if (notificationsCount) {
       let newNotifications = {};
       Object.keys(currentUser.notifications).forEach(
         (key) =>
@@ -54,9 +54,15 @@ const Navbar = () => {
             unseen: false,
           })
       );
-      changeDbUserField(currentUser.id, {
-        notifications: { ...newNotifications },
-      });
+
+      changeDbUserField(
+        currentUser.id,
+        {
+          notifications: { ...newNotifications },
+        },
+        "add"
+      );
+
       //update redux state//////////////////////
       dispatch(
         currentUserUpdate({ ...currentUser, notifications: newNotifications })
@@ -66,39 +72,30 @@ const Navbar = () => {
 
   //if user clicks notification link
   useEffect(() => {
-    notificationsSeen();
-    setIsNotificationsHidden(true);
+    if (!isNotificationsHidden) {
+      setIsNotificationsHidden(true);
+    }
   }, [location]);
 
-  const clickOutClose = (e, forceFire) => {
-    e.stopPropagation();
+  const clickOutClose = (e) => {
+    document.addEventListener("click", clickOutClose, { once: true });
 
-    console.log("clickout");
-    let condition = !notificationsBox.current?.contains(e.target);
-    if (forceFire) {
-      condition = false;
-    }
-    if (condition) {
-      console.log("zaehalo");
-      document.removeEventListener("click", clickOutClose, { once: true });
-      notificationsSeen(true);
+    if (!notificationsBox.current?.contains(e?.target)) {
+      document.removeEventListener("click", clickOutClose);
       setIsNotificationsHidden(true);
     }
   };
 
-  const toggleNotifications = (e) => {
-    e.stopPropagation();
-    if (isNotificationsHidden) {
-      setIsNotificationsHidden(false);
+  useEffect(() => {
+    if (!isNotificationsHidden) {
       document.addEventListener("click", clickOutClose, { once: true });
-      // document.onclick = clickOutClose;
-    } else {
+    } else if (isNotificationsHidden === true) {
       notificationsSeen();
-      // clickOutClose(e, false);
-      setIsNotificationsHidden(true);
-      document.removeEventListener("click", clickOutClose);
-      // document.onclick = null;
     }
+  }, [isNotificationsHidden]);
+
+  const toggleNotifications = (e) => {
+    setIsNotificationsHidden(false);
   };
   return (
     <div className={styles.navbar}>

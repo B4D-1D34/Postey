@@ -87,7 +87,7 @@ const RatingBox = ({ postId, commentId }) => {
                 },
                 id: `${commentId}${currentUser.id}`,
               },
-              true
+              "partly"
             );
           }
           // ).then(() => {
@@ -132,7 +132,7 @@ const RatingBox = ({ postId, commentId }) => {
                 },
                 id: `${postId}${currentUser.id}`,
               },
-              true
+              "partly"
             );
           }
           // .then(() => {

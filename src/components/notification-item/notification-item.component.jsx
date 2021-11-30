@@ -44,9 +44,15 @@ const NotificationItem = ({
         (acc, key) => (acc = { ...acc, [key]: currentUser.notifications[key] }),
         {}
       );
-    changeDbUserField(currentUser.id, {
-      notifications: { ...notificationsModified },
-    });
+    changeDbUserField(
+      currentUser.id,
+      {
+        notifications: "",
+        id:
+          type === "commentRate" || type === "postRate" ? `${id}${author}` : id,
+      },
+      "partly"
+    );
     dispatch(
       currentUserUpdate({
         ...currentUser,
