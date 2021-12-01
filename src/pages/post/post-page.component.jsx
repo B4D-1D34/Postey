@@ -1,5 +1,6 @@
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import CommentSection from "../../components/comment-section/comment-section.component";
 import Loader from "../../components/loader/loader.component";
 import PostDataBlock from "../../components/post-data-block/post-data-block.component";
@@ -12,8 +13,17 @@ import styles from "./post-page.module.css";
 
 const PostPage = () => {
   const { postId } = useParams();
+
+  const { hash } = useLocation();
   const posts = useSelector(selectCurrentPosts);
   const currentUser = useSelector(selectCurrentUser);
+
+  useEffect(() => {
+    if (!hash) {
+      window.scroll(0, 0);
+    }
+  }, []);
+
   return (
     <>
       {posts ? (
