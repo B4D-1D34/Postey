@@ -22,7 +22,7 @@ const PostPage = () => {
     if (!hash) {
       window.scroll(0, 0);
     }
-  }, []);
+  }, [hash]);
 
   return (
     <>

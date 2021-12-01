@@ -100,6 +100,7 @@ const NewCommentForm = ({ postId, replyReference, setReplyReference }) => {
         }
       );
     }
+    // eslint-disable-next-line
   }, [replyReference]);
   return (
     <form className={styles.newPostForm} onSubmit={handleSubmit}>

@@ -26,6 +26,8 @@ import UpBackButton from "./components/up-back-button/up-back-button.component";
 import "./App.css";
 
 function App() {
+  //should change view on user change
+  //eslint-disable-next-line
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
   useEffect(() => {

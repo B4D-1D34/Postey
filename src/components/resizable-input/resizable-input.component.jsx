@@ -1,26 +1,29 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import styles from "./resizable-input.module.css";
 
 const ResizableInput = ({ handleChange, content, isEditing }) => {
   const hiddenDiv = useRef();
   const visibleInput = useRef();
 
-  const handleResize = (e) => {
-    if (e) {
-      handleChange(e);
-    }
-    const threeLinesHeight =
-      parseInt(getComputedStyle(hiddenDiv.current).lineHeight) * 3;
-    visibleInput.current.style.height = threeLinesHeight.toString() + "px";
-    hiddenDiv.current.innerHTML = visibleInput.current.value.replaceAll(
-      "\n",
-      "<br/> "
-    );
-    if (threeLinesHeight < hiddenDiv.current.scrollHeight) {
-      visibleInput.current.style.height =
-        hiddenDiv.current.scrollHeight.toString() + "px";
-    }
-  };
+  const handleResize = useCallback(
+    (e) => {
+      if (e) {
+        handleChange(e);
+      }
+      const threeLinesHeight =
+        parseInt(getComputedStyle(hiddenDiv.current).lineHeight) * 3;
+      visibleInput.current.style.height = threeLinesHeight.toString() + "px";
+      hiddenDiv.current.innerHTML = visibleInput.current.value.replaceAll(
+        "\n",
+        "<br/> "
+      );
+      if (threeLinesHeight < hiddenDiv.current.scrollHeight) {
+        visibleInput.current.style.height =
+          hiddenDiv.current.scrollHeight.toString() + "px";
+      }
+    },
+    [handleChange]
+  );
 
   useEffect(() => {
     if (!content) {

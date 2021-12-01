@@ -17,6 +17,7 @@ const ReplyLink = ({ replyReference, postId, commentSectionRef }) => {
         }
       );
     }
+    // eslint-disable-next-line
   }, [replyReference]);
 
   const showReplyReference = () => {

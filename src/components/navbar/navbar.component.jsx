@@ -75,6 +75,7 @@ const Navbar = () => {
     if (!isNotificationsHidden) {
       setIsNotificationsHidden(true);
     }
+    // eslint-disable-next-line
   }, [location]);
 
   const clickOutClose = (e) => {
@@ -92,6 +93,7 @@ const Navbar = () => {
     } else if (isNotificationsHidden === true) {
       notificationsSeen();
     }
+    // eslint-disable-next-line
   }, [isNotificationsHidden]);
 
   const toggleNotifications = (e) => {
