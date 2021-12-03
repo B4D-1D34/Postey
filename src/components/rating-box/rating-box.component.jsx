@@ -16,7 +16,7 @@ import {
 import styles from "./rating-box.module.css";
 import { useDispatch } from "react-redux";
 import {
-  currentUserUpdate,
+  currentUserUpdateAsync,
   updateFailure,
 } from "../../redux/user/user.actions";
 import { selectCurrentPosts } from "../../redux/posts/posts.selectors";
@@ -70,9 +70,14 @@ const RatingBox = ({ postId, commentId }) => {
     try {
       if (commentId) {
         //write into current user rates db
-        changeDbUserField(currentUser.id, {
-          rates: { ...currentUser?.rates, [commentId]: currentRate },
-        }).then(() => {
+        changeDbUserField(
+          currentUser.id,
+          {
+            rates: currentRate,
+            id: commentId,
+          },
+          "partly"
+        ).then(() => {
           //write into receiver user notifications, order of keys in data object is important!! same user actions are not sended to notifications.
           if (currentUser.id !== author) {
             changeDbUserField(
@@ -90,10 +95,9 @@ const RatingBox = ({ postId, commentId }) => {
               "partly"
             );
           }
-          // ).then(() => {
           //write into comment's db, and dispatch to redux state
           changeDbCommentField(postId, commentId, {
-            rating: rating + postRating,
+            rating: postRating,
           }).then((comment) => {
             dispatch(
               commentUpdate({
@@ -105,20 +109,24 @@ const RatingBox = ({ postId, commentId }) => {
               })
             );
             dispatch(
-              currentUserUpdate({
+              currentUserUpdateAsync({
                 ...currentUser,
                 rates: { ...currentUser.rates, [commentId]: currentRate },
               })
             );
             setIsProcessing(false);
           });
-          // });
         });
       } else {
         //write into current user rates db
-        changeDbUserField(currentUser.id, {
-          rates: { ...currentUser?.rates, [postId]: currentRate },
-        }).then(() => {
+        changeDbUserField(
+          currentUser.id,
+          {
+            rates: currentRate,
+            id: postId,
+          },
+          "partly"
+        ).then(() => {
           //write into receiver user notifications, order of keys in data object is important!! same user actions are not sended to notifications.
           if (currentUser.id !== author) {
             changeDbUserField(
@@ -135,23 +143,17 @@ const RatingBox = ({ postId, commentId }) => {
               "partly"
             );
           }
-          // .then(() => {
           //write into posts's db, and dispatch to redux state
-          changeDbPostField(postId, { rating: rating + postRating });
-          dispatch(
-            postUpdateSuccess({
-              id: postId,
-              data: { ...posts[postId], rating: rating + postRating },
-            })
-          );
-          dispatch(
-            currentUserUpdate({
-              ...currentUser,
-              rates: { ...currentUser.rates, [postId]: currentRate },
-            })
-          );
-          setIsProcessing(false);
-          // });
+          changeDbPostField(postId, { rating: postRating }).then((post) => {
+            dispatch(postUpdateSuccess(post));
+            dispatch(
+              currentUserUpdateAsync({
+                ...currentUser,
+                rates: { ...currentUser.rates, [postId]: currentRate },
+              })
+            );
+            setIsProcessing(false);
+          });
         });
       }
     } catch (err) {

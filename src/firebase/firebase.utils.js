@@ -98,6 +98,12 @@ export const signInWithEmailAndPass = (email, password) =>
 export const createUserWithEmailAndPass = (email, password) =>
   createUserWithEmailAndPassword(auth, email, password);
 
+export const getActualNotifications = async (userId) => {
+  const userRef = doc(firestore, `users/${userId}`);
+  const userSnap = await getDoc(userRef);
+  return userSnap.data().notifications;
+};
+
 export const changeDbUserField = async (userId, field, mode) => {
   const userRef = doc(firestore, `users/${userId}`);
   const fieldName = Object.keys(field)[0];
@@ -137,16 +143,42 @@ export const updateUserRates = (posts, currentUser) => {
   changeDbUserField(currentUser.id, { rates: filteredRecords });
 };
 
-export const changeDbPostField = (postId, field) => {
+export const changeDbPostField = async (postId, field) => {
   const postRef = doc(firestore, `posts/${postId}`);
   const fieldName = Object.keys(field)[0];
-  updateDoc(postRef, fieldName, field[fieldName]);
+  if (fieldName === "rating") {
+    const postSnapshot = await getDoc(postRef);
+    await updateDoc(
+      postRef,
+      fieldName,
+      postSnapshot.data().rating + field[fieldName]
+    );
+  } else {
+    await updateDoc(postRef, fieldName, field[fieldName]);
+  }
+  const postSnapshot = await getDoc(postRef);
+  const commentsRef = collection(firestore, `posts/${postId}/comments`);
+  const commentsSnapshot = await getDocs(commentsRef);
+  let comments = {};
+  for (const comment of commentsSnapshot.docs) {
+    comments = { ...comments, [comment.id]: { ...comment.data() } };
+  }
+  return { id: postId, data: { ...postSnapshot.data(), comments } };
 };
 
 export const changeDbCommentField = async (postId, commentId, field) => {
   const commentRef = doc(firestore, `posts/${postId}/comments/${commentId}`);
   const fieldName = Object.keys(field)[0];
-  await updateDoc(commentRef, fieldName, field[fieldName]);
+  if (fieldName === "rating") {
+    const commentSnapshot = await getDoc(commentRef);
+    await updateDoc(
+      commentRef,
+      fieldName,
+      commentSnapshot.data().rating + field[fieldName]
+    );
+  } else {
+    await updateDoc(commentRef, fieldName, field[fieldName]);
+  }
   const commentSnapshot = await getDoc(commentRef);
   return { id: commentSnapshot.id, data: { ...commentSnapshot.data() } };
 };

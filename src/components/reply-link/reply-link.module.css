@@ -21,6 +21,10 @@
   background: rgb(255, 220, 174);
 }
 
+.showing * {
+  background: transparent !important;
+}
+
 @media screen and (max-width: 480px) {
   .reply {
     margin-left: 0;

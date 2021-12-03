@@ -11,7 +11,10 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
 import { useDispatch } from "react-redux";
-import { currentUserUpdate } from "../../redux/user/user.actions";
+import {
+  currentUserUpdateAsync,
+  updateFailure,
+} from "../../redux/user/user.actions";
 
 const NotificationItem = ({
   author,
@@ -19,7 +22,7 @@ const NotificationItem = ({
   id,
   createdAt,
   refPostId,
-  refCommentId,
+  // refCommentId,
   currentRate,
   unseen,
 }) => {
@@ -32,18 +35,18 @@ const NotificationItem = ({
 
   const deleteNotification = (e) => {
     e.stopPropagation();
-    const notificationsModified = Object.keys(currentUser.notifications)
-      .filter((key) => {
-        if (type === "commentRate" || type === "postRate") {
-          return key !== `${id}${author}`;
-        } else {
-          return key !== id;
-        }
-      })
-      .reduce(
-        (acc, key) => (acc = { ...acc, [key]: currentUser.notifications[key] }),
-        {}
-      );
+    // const notificationsModified = Object.keys(currentUser.notifications)
+    //   .filter((key) => {
+    //     if (type === "commentRate" || type === "postRate") {
+    //       return key !== `${id}${author}`;
+    //     } else {
+    //       return key !== id;
+    //     }
+    //   })
+    //   .reduce(
+    //     (acc, key) => (acc = { ...acc, [key]: currentUser.notifications[key] }),
+    //     {}
+    //   );
     changeDbUserField(
       currentUser.id,
       {
@@ -52,13 +55,16 @@ const NotificationItem = ({
           type === "commentRate" || type === "postRate" ? `${id}${author}` : id,
       },
       "partly"
-    );
-    dispatch(
-      currentUserUpdate({
-        ...currentUser,
-        notifications: { ...notificationsModified },
-      })
-    );
+    )
+      .then(() =>
+        dispatch(
+          currentUserUpdateAsync({
+            ...currentUser,
+            // notifications: { ...notificationsModified },
+          })
+        )
+      )
+      .catch(({ message }) => dispatch(updateFailure({ message })));
   };
 
   return (

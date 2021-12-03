@@ -6,7 +6,7 @@ import {
 import styles from "./navbar.module.css";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
 import {
-  currentUserUpdate,
+  currentUserUpdateAsync,
   signOutSuccess,
   updateFailure,
 } from "../../redux/user/user.actions";
@@ -65,7 +65,10 @@ const Navbar = () => {
 
       //update redux state//////////////////////
       dispatch(
-        currentUserUpdate({ ...currentUser, notifications: newNotifications })
+        currentUserUpdateAsync({
+          ...currentUser,
+          notifications: newNotifications,
+        })
       );
     }
   };

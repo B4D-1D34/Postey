@@ -17,7 +17,7 @@ import { useDispatch } from "react-redux";
 import {
   updateFailure,
   updateSuccess,
-  currentUserUpdate,
+  currentUserUpdateAsync,
 } from "../../redux/user/user.actions";
 
 const ProfileSettingsBlock = () => {
@@ -43,7 +43,7 @@ const ProfileSettingsBlock = () => {
     e.preventDefault();
     try {
       changeDbUserField(currentUser.id, { displayName });
-      dispatch(currentUserUpdate({ ...currentUser, displayName }));
+      dispatch(currentUserUpdateAsync({ ...currentUser, displayName }));
       dispatch(
         updateSuccess({ message: `Your display name has been updated!` })
       );

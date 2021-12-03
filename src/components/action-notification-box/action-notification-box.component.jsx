@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { changeDbUserField } from "../../firebase/firebase.utils";
+// import { changeDbUserField } from "../../firebase/firebase.utils";
 import { selectCurrentPosts } from "../../redux/posts/posts.selectors";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
 import NotificationItem from "../notification-item/notification-item.component";
@@ -131,7 +131,9 @@ const ActionNotificationBox = ({ setNotificationsCount }) => {
         },
       })
   );
-  changeDbUserField(currentUser.id, { notifications: newNotifications });
+  console.log("clearing");
+  console.log(newNotifications);
+  // changeDbUserField(currentUser.id, { notifications: newNotifications });
   //deleting inexistent notifications from db
 
   useEffect(
