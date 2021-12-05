@@ -38,12 +38,11 @@ export const currentUserUpdate = (currentUser) => ({
 export const currentUserUpdateAsync = (currentUser) => {
   return (dispatch) => {
     getActualNotifications(currentUser.id).then((res) => {
-      console.log(res);
+      // console.log(res);
       dispatch(
         currentUserUpdate({
           ...currentUser,
-          notifications: { ...currentUser?.notifications, ...res },
-          // notifications: res,
+          notifications: res,
         })
       );
     });

@@ -58,18 +58,13 @@ const Navbar = () => {
       changeDbUserField(
         currentUser.id,
         {
-          notifications: { ...newNotifications },
+          notifications: newNotifications,
         },
         "add"
-      );
-
-      //update redux state//////////////////////
-      dispatch(
-        currentUserUpdateAsync({
-          ...currentUser,
-          notifications: newNotifications,
-        })
-      );
+      ).then(() => {
+        //update redux state//////////////////////
+        dispatch(currentUserUpdateAsync(currentUser));
+      });
     }
   };
 
@@ -100,6 +95,11 @@ const Navbar = () => {
   }, [isNotificationsHidden]);
 
   const toggleNotifications = (e) => {
+    dispatch(
+      currentUserUpdateAsync({
+        ...currentUser,
+      })
+    );
     setIsNotificationsHidden(false);
   };
   return (

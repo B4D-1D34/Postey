@@ -116,10 +116,20 @@ export const changeDbUserField = async (userId, field, mode) => {
     });
   } else if (mode === "add") {
     const userSnap = await getDoc(userRef);
-    updateDoc(userRef, fieldName, {
-      ...userSnap.data()[fieldName],
-      ...field[fieldName],
-    });
+    const dbData = userSnap.data()[fieldName];
+    const updatedUserField = Object.keys(dbData).reduce((acc, key) => {
+      // console.log(dbData[key].createdAt > field[fieldName][key]?.createdAt);
+      if (dbData[key].createdAt > field[fieldName][key]?.createdAt) {
+        return { ...acc, [key]: dbData[key] };
+      } else {
+        const returnValue = field[fieldName][key]
+          ? { ...acc, [key]: field[fieldName][key] }
+          : { ...acc };
+        return returnValue;
+      }
+    }, {});
+
+    updateDoc(userRef, fieldName, updatedUserField);
   } else {
     updateDoc(userRef, fieldName, field[fieldName]);
   }

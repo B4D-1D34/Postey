@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-// import { changeDbUserField } from "../../firebase/firebase.utils";
+import { changeDbUserField } from "../../firebase/firebase.utils";
 import { selectCurrentPosts } from "../../redux/posts/posts.selectors";
 import { selectCurrentUser } from "../../redux/user/user.selectors";
 import NotificationItem from "../notification-item/notification-item.component";
@@ -121,19 +121,26 @@ const ActionNotificationBox = ({ setNotificationsCount }) => {
     .map((notification) => notification);
 
   //deleting inexistent notifications from db
-  let newNotifications = {};
-  filteredNotifications.slice(0, 15).forEach(
-    ({ key }) =>
-      (newNotifications = {
-        ...newNotifications,
-        [key.replace("_notif", "")]: {
-          ...currentUser.notifications[key.replace("_notif", "")],
-        },
-      })
-  );
-  console.log("clearing");
-  console.log(newNotifications);
-  // changeDbUserField(currentUser.id, { notifications: newNotifications });
+  useEffect(() => {
+    let newNotifications = {};
+    filteredNotifications.slice(0, 15).forEach(
+      ({ key }) =>
+        (newNotifications = {
+          ...newNotifications,
+          [key.replace("_notif", "")]: {
+            ...currentUser.notifications[key.replace("_notif", "")],
+          },
+        })
+    );
+    // console.log("clearing");
+    // console.log(newNotifications);
+    changeDbUserField(
+      currentUser.id,
+      { notifications: newNotifications },
+      "add"
+    );
+    //eslint-disable-next-line
+  }, [currentUser.id]);
   //deleting inexistent notifications from db
 
   useEffect(
