@@ -1,6 +1,6 @@
 # Postey - Community Forum App Project
 
-![homepage-image](https://ibb.co/xG81KMz "Homepage")
+![homepage-image](https://github.com/B4D-1D34/Postey/blob/master/forreadme.png "Homepage")
 
 ### Tools:
 
@@ -37,12 +37,12 @@
 
 ### Profile page, rated posts:
 
-![profile-image](https://ibb.co/xCrvZKn "Profile page, rated posts")
+![profile-image](https://github.com/B4D-1D34/Postey/blob/master/readmeprofile.png "Profile page, rated posts")
 
 ### Profile settings:
 
-![settings-image](https://ibb.co/JnMRsY9 "Profile settings")
+![settings-image](https://github.com/B4D-1D34/Postey/blob/master/settings.png "Profile settings")
 
 ### Comments, mobile view:
 
-![comments-image](https://ibb.co/TcRdQY0 "Comments, mobile view")
+![comments-image](https://github.com/B4D-1D34/Postey/blob/master/commentsmobile.png "Comments, mobile view")
