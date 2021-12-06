@@ -34,7 +34,7 @@ const userObject = (userAuth, additionalData, snapShotData) => {
   const { providerId } = providerData[0];
   const authMethod = providerId === "google.com" ? "google" : "email/password";
   const createdAt = new Date();
-  console.log(snapShotData);
+  // console.log(snapShotData);
   return {
     displayName: snapShotData?.displayName
       ? snapShotData.displayName

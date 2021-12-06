@@ -32,7 +32,7 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (userAuth) => {
-      console.log(`userAuth`, userAuth);
+      // console.log(`userAuth`, userAuth);
       try {
         const posts = await getDbPosts();
         dispatch(fetchPostsSuccess(posts));
