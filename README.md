@@ -2,6 +2,10 @@
 
 ![homepage-image](https://github.com/B4D-1D34/Postey/blob/master/forreadme.png "Homepage")
 
+# TEST DATA TO LOG IN
+## LOGIN:tiny@ho.me
+## PASSWORD:000000
+
 ### Tools:
 
 - React
